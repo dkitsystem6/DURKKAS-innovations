@@ -85,7 +85,7 @@ const AboutSection = () => {
 
   return (
     <section
-      className={`pt-8 md:pt-12 pb-8 md:pb-12 w-full relative select-none section-container overflow-x-hidden`}
+      className={`pt-2 md:pt-4 pb-2 md:pb-4 w-full relative select-none section-container overflow-x-hidden`}
       ref={targetSection}
     >
       {renderQuotes()}

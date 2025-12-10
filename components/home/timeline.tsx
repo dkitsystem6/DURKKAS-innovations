@@ -732,11 +732,11 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
 
   return (
     <section
-      className="w-full relative select-none min-h-screen section-container py-4 md:py-6 flex flex-col justify-center overflow-x-hidden"
+      className="w-full relative select-none min-h-screen section-container py-2 md:py-4 flex flex-col justify-center overflow-x-hidden"
       id={MENULINKS[3].ref}
     >
       {renderSectionTitle()}
-      <div className="grid grid-cols-12 gap-4 mt-20 w-full overflow-x-hidden">
+      <div className="grid grid-cols-12 gap-4 mt-4 md:mt-6 w-full overflow-x-hidden">
         <div className="col-span-12 md:col-span-6 line-svg w-full overflow-x-hidden" ref={svgContainer}>
           {renderSVG()}
         </div>
