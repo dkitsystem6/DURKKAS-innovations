@@ -15,10 +15,10 @@ import HeroImage from "./hero-image";
 const HERO_STYLES = {
   SECTION:
     "w-full flex md:items-center py-4 md:py-6 section-container min-h-screen relative mb-0 overflow-x-hidden",
-  CONTENT: "font-medium flex flex-col pt-32 md:pt-0 select-none items-center md:items-start w-full max-w-full",
+  CONTENT: "font-medium flex flex-col pt-4 md:pt-0 select-none items-center md:items-start w-full max-w-full",
   SOCIAL_LINK: "link hover:opacity-80 duration-300 md:mr-4 mr-2",
   BG_WRAPPER:
-    "absolute hero-bg left-0 right-0 mx-auto md:right-0 md:left-auto md:mx-0 bottom-8 md:bottom-0 -z-1 w-full max-w-sm md:w-3/4 md:max-w-none scale-100 md:scale-100 flex items-center justify-center md:items-end md:justify-end",
+    "absolute hero-bg left-0 right-0 mx-auto md:right-0 md:left-auto md:mx-0 bottom-2 md:bottom-0 -z-1 w-full max-w-sm md:w-3/4 md:max-w-none scale-100 md:scale-100 flex items-center justify-center md:items-end md:justify-end",
   TYPED_SPAN: "text-xl sm:text-2xl md:text-4xl seq",
 };
 
@@ -110,7 +110,7 @@ const HeroSection = React.memo(() => {
       </div>
       
       {/* Typed String - Separate Div */}
-      <div className="mb-4 mt-4 md:mt-0 text-center md:text-left">
+      <div className="mb-2 md:mb-4 mt-2 md:mt-0 text-center md:text-left">
         <span className={HERO_STYLES.TYPED_SPAN} ref={typedSpanElement}></span>
       </div>
       
