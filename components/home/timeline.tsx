@@ -173,7 +173,7 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
       ? `<img src='${image}' class='h-8 mb-2' loading='lazy' width='100' height='32' alt='${image}' />`
       : "";
     const subtitleString = subtitle
-      ? `<p class='text-xl mt-2 text-gray-200 font-medium tracking-wide'>${subtitle}</p>`
+      ? `<p class='text-sm md:text-xl mt-2 text-gray-200 font-medium tracking-wide'>${subtitle}</p>`
       : "";
 
     return `<foreignObject x=${foreignObjectX} y=${foreignObjectY} width=${foreignObjectWidth} 
@@ -732,12 +732,12 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
 
   return (
     <section
-      className="w-full relative select-none min-h-screen section-container py-8 flex flex-col justify-center"
+      className="w-full relative select-none min-h-screen section-container py-4 md:py-6 flex flex-col justify-center overflow-x-hidden"
       id={MENULINKS[3].ref}
     >
       {renderSectionTitle()}
-      <div className="grid grid-cols-12 gap-4 mt-20">
-        <div className="col-span-12 md:col-span-6 line-svg" ref={svgContainer}>
+      <div className="grid grid-cols-12 gap-4 mt-20 w-full overflow-x-hidden">
+        <div className="col-span-12 md:col-span-6 line-svg w-full overflow-x-hidden" ref={svgContainer}>
           {renderSVG()}
         </div>
         <div className="col-span-12 md:col-span-6 md:flex hidden">

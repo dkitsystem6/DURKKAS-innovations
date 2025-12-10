@@ -107,7 +107,7 @@ export default function Home() {
         <Header />
         <ProgressIndicator />
         <Cursor isDesktop={isDesktop} />
-        <main className="flex-col flex">
+        <main className="flex-col flex overflow-x-hidden w-full">
           {renderBackdrop()}
           <HeroSection />
           <AboutSection />

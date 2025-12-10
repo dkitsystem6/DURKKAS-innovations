@@ -96,7 +96,7 @@ export default function Elevate() {
         <Header />
         <ProgressIndicator />
         <Cursor isDesktop={isDesktop} />
-        <main className="flex-col flex">
+        <main className="flex-col flex overflow-x-hidden w-full">
           {renderBackdrop()}
           <div className="w-full relative select-none section-container flex-col flex py-8 justify-center min-h-screen items-center overflow-hidden">
             <style jsx global>{`

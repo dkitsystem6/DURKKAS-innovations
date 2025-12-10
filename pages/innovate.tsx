@@ -133,7 +133,7 @@ export default function Innovate() {
         <Header />
         <ProgressIndicator />
         <Cursor isDesktop={isDesktop} />
-        <main className="flex-col flex pb-0">
+        <main className="flex-col flex pb-0 overflow-x-hidden w-full">
           {renderBackdrop()}
           <InnovateHeroSection onBulbClick={() => setIsBulbOn(true)} />
           {isBulbOn && (

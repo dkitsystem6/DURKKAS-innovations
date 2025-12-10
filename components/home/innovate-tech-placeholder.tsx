@@ -463,7 +463,7 @@ const InnovateTechPlaceholder = React.memo(() => {
   return (
     <section
       id="tech"
-      className={`tall:pt-20 tall:pb-16 pt-20 md:pt-40 pb-12 md:pb-24 w-full relative select-none section-container`}
+      className={`tall:pt-20 tall:pb-16 pt-20 md:pt-40 pb-12 md:pb-24 w-full relative select-none section-container overflow-x-hidden`}
       ref={targetSection}
     >
       {renderContent()}

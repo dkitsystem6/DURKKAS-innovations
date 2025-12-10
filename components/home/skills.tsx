@@ -13,7 +13,7 @@ import React from "react";
 
 const SKILL_STYLES = {
   SECTION:
-    "w-full relative select-none mb-24 section-container py-12 flex flex-col justify-center",
+    "w-full relative select-none mb-0 section-container py-4 md:py-6 flex flex-col justify-center",
   SKILL_TITLE: "section-title-sm mb-4 seq",
 };
 
@@ -270,7 +270,7 @@ const SkillsSection = React.memo(() => {
   );
 
   return (
-    <section className="relative">
+    <section className="relative overflow-x-hidden w-full">
       {renderBackgroundPattern()}
       <div
         className={SKILL_STYLES.SECTION}
