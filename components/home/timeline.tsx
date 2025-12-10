@@ -4,7 +4,7 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useRef, useState, useCallback } from "react";
 import {
   Branch,
   BranchNode,
@@ -504,6 +504,51 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
     };
   }, []);
 
+  // Wrap functions in useCallback to fix dependency warnings
+  const setTimelineSvgCallback = useCallback((container: MutableRefObject<HTMLDivElement>, svg: MutableRefObject<SVGSVGElement>) => {
+    if (!container.current || !svg.current) return;
+    
+    const containerWidth = container.current.clientWidth;
+    setSvgWidth(containerWidth);
+
+    const resultSvgString = generateTimelineSvg(TIMELINE);
+    svg.current.innerHTML = resultSvgString;
+
+    const isSmall = isSmallScreen();
+    setIsMobile(isSmall);
+    if (isSmall) {
+      setRightBranchX(70);
+    } else {
+      setRightBranchX(109);
+    }
+  }, []);
+
+  const initScrollTriggerCallback = useCallback(() => {
+    return initScrollTrigger();
+  }, [svgCheckpointItems.length, isDesktop, svgLength, rightBranchX, screenContainer]);
+
+  const animateTimelineCallback = useCallback((timeline: GSAPTimeline, duration: number) => {
+    let index = 0;
+
+    addNodeRefsToItems(TIMELINE).forEach((item) => {
+      const { type } = item;
+
+      if (type === NodeTypes.CHECKPOINT && item.shouldDrawLine) {
+        const { next, prev } = item;
+
+        if (prev?.type === NodeTypes.DIVERGE) {
+          addDivergingBranchLineAnimation(timeline, duration, index);
+        } else if (next?.type === NodeTypes.CONVERGE) {
+          addConvergingBranchLineAnimation(timeline, duration, index);
+        } else {
+          addLineSvgAnimation(timeline, duration, index);
+        }
+
+        index++;
+      }
+    });
+  }, []);
+
   // Handle resize and viewport changes
   useEffect(() => {
     let resizeTimeout: NodeJS.Timeout;
@@ -533,15 +578,15 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
         }
 
         // Regenerate SVG with new dimensions
-        setTimelineSvg(svgContainer, timelineSvg);
+        setTimelineSvgCallback(svgContainer, timelineSvg);
 
         // Small delay to ensure DOM is updated
         setTimeout(() => {
           if (!svgContainer.current || !timelineSvg.current) return;
           
           // Reinitialize
-          const { timeline, duration } = initScrollTrigger();
-          animateTimeline(timeline, duration);
+          const { timeline, duration } = initScrollTriggerCallback();
+          animateTimelineCallback(timeline, duration);
         }, 50);
       }, 200);
     };
@@ -552,15 +597,19 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
       clearTimeout(resizeTimeout);
       window.removeEventListener("resize", handleResize);
     };
-  }, [isDesktop, viewportWidth]);
+  }, [isDesktop, viewportWidth, setTimelineSvgCallback, initScrollTriggerCallback, animateTimelineCallback]);
 
   useEffect(() => {
-    if (!svgContainer.current || !timelineSvg.current) return;
+    const svgContainerElement = svgContainer.current;
+    const timelineSvgElement = timelineSvg.current;
+    const screenContainerElement = screenContainer.current;
+    
+    if (!svgContainerElement || !timelineSvgElement) return;
 
     // Cleanup previous instances first
     ScrollTrigger.getAll().forEach((trigger) => {
-      if (trigger.vars.trigger === svgContainer.current || 
-          trigger.vars.trigger === screenContainer.current) {
+      if (trigger.vars.trigger === svgContainerElement || 
+          trigger.vars.trigger === screenContainerElement) {
         trigger.kill();
       }
     });
@@ -575,17 +624,17 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
     }
 
     // Generate and set the timeline svg
-    setTimelineSvg(svgContainer, timelineSvg);
+    setTimelineSvgCallback(svgContainer, timelineSvg);
 
     // Small delay to ensure SVG is rendered
     const initTimeout = setTimeout(() => {
-      if (!svgContainer.current || !timelineSvg.current) return;
+      if (!svgContainerElement || !timelineSvgElement) return;
 
       const { timeline, duration }: { timeline: GSAPTimeline; duration: number } =
-        initScrollTrigger();
+        initScrollTriggerCallback();
 
       // Animation for Timeline SVG
-      animateTimeline(timeline, duration);
+      animateTimelineCallback(timeline, duration);
     }, 100);
 
     // Cleanup on unmount
@@ -594,8 +643,8 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
       
       // Kill all ScrollTriggers
       ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.vars.trigger === svgContainer.current || 
-            trigger.vars.trigger === screenContainer.current) {
+        if (trigger.vars.trigger === svgContainerElement || 
+            trigger.vars.trigger === screenContainerElement) {
           trigger.kill();
         }
       });
@@ -620,6 +669,9 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
     svgLength,
     isMobile,
     viewportWidth,
+    setTimelineSvgCallback,
+    initScrollTriggerCallback,
+    animateTimelineCallback,
   ]);
 
   const renderSlides = (): React.ReactNode => (

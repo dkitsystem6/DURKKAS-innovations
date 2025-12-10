@@ -133,8 +133,8 @@ const ProjectsSection = ({ isDesktop }: IDesktop) => {
         An Eco System to <br className="hidden lg:block" /> 
       </h1>
       <h2 className="text-lg sm:text-xl md:text-2xl md:max-w-3xl w-full seq max-w-sm mt-2 px-2 md:px-0">
-        "From ideas to execution, we empower people with the tools, knowledge,
-        and support needed to rise, lead, and transform their future."
+        &ldquo;From ideas to execution, we empower people with the tools, knowledge,
+        and support needed to rise, lead, and transform their future.&rdquo;
       </h2>
     </div>
   );

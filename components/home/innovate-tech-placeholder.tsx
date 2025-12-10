@@ -392,7 +392,7 @@ const InnovateTechPlaceholder = React.memo(() => {
     };
     
     checkSize();
-  }, [isVisible, isInitialized]);
+  }, [isVisible, isInitialized, hasAnimated]);
 
   const renderContent = (): React.ReactNode => {
     return (

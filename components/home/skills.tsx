@@ -97,8 +97,9 @@ const SkillsSection = React.memo(() => {
         timelineRef.current = null;
       }
       // Cleanup will-change
-      if (targetSection.current) {
-        const seqElements = targetSection.current.querySelectorAll(".seq");
+      const targetSectionElement = targetSection.current;
+      if (targetSectionElement) {
+        const seqElements = targetSectionElement.querySelectorAll(".seq");
         seqElements.forEach((el) => {
           (el as HTMLElement).style.willChange = 'auto';
         });
