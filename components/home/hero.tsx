@@ -135,7 +135,7 @@ const HeroSection = React.memo(() => {
       {renderHeroContent()}
       {renderBackgroundImage()}
       {/* Social Media Icons - Mobile View Only - Below Hero Image */}
-      <div className="md:hidden flex seq justify-center absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-full">
+      <div className="md:hidden flex seq justify-center relative w-full">
         {renderSocialLinks()}
       </div>
     </section>
