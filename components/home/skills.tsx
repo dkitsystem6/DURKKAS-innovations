@@ -82,6 +82,7 @@ const SkillsSection = React.memo(() => {
     if (!targetSection.current) return;
 
     const revealAnimationRef = initRevealAnimation(targetSection);
+    const targetSectionElement = targetSection.current; // Store ref value at effect start
 
     return () => {
       // Proper cleanup
@@ -96,8 +97,7 @@ const SkillsSection = React.memo(() => {
         timelineRef.current.kill();
         timelineRef.current = null;
       }
-      // Cleanup will-change
-      const targetSectionElement = targetSection.current;
+      // Cleanup will-change - use stored ref value
       if (targetSectionElement) {
         const seqElements = targetSectionElement.querySelectorAll(".seq");
         seqElements.forEach((el) => {

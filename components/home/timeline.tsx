@@ -168,6 +168,7 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
     const foreignObjectWidth = svgWidth - (dotSize / 2 + 10 + offset);
 
     const titleSizeClass = size === ItemSize.LARGE ? "text-6xl" : "text-2xl";
+    // eslint-disable-next-line @next/next/no-img-element
     const logoString = image
       ? `<img src='${image}' class='h-8 mb-2' loading='lazy' width='100' height='32' alt='${image}' />`
       : "";
@@ -432,12 +433,14 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
       // Re-render slides for desktop/tablet
       if (screenContainer.current.innerHTML === "") {
         // Re-render slides if they were cleared
+        // eslint-disable-next-line @next/next/no-img-element
         const slidesHTML = `
           <img class="w-full h-8" src="/timeline/title bar.png" alt="Title bar" width="644" height="34" />
           <div class="relative h-full w-full -mt-2">
             <div class="absolute top-0 left-0 h-full w-full">
               ${svgCheckpointItems.map((item, index) => {
                 const checkpointItem = item as CheckpointNode;
+                // eslint-disable-next-line @next/next/no-img-element
                 return checkpointItem.slideImage 
                   ? `<img class="w-full absolute top-0 object-cover slide-${index + 1}" src="${checkpointItem.slideImage}" alt="Timeline" style="position: absolute; width: 100%; height: 100%; object-fit: cover;" />`
                   : '';
@@ -521,11 +524,13 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
     } else {
       setRightBranchX(109);
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // generateTimelineSvg is stable, no need to include
 
   const initScrollTriggerCallback = useCallback(() => {
     return initScrollTrigger();
-  }, [svgCheckpointItems.length, isDesktop, svgLength, rightBranchX, screenContainer]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [svgCheckpointItems.length, isDesktop, svgLength, rightBranchX, screenContainer]); // initScrollTrigger uses these values
 
   const animateTimelineCallback = useCallback((timeline: GSAPTimeline, duration: number) => {
     let index = 0;

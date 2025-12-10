@@ -7,6 +7,7 @@
 import { gsap, Linear } from "gsap";
 import React, { MutableRefObject, useEffect, useRef } from "react";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import Image from "next/image";
 
 const EducateGallerySection = () => {
   const targetSection: MutableRefObject<HTMLDivElement> = useRef(null);
@@ -143,9 +144,12 @@ const EducateGallerySection = () => {
           <ul ref={galleryListRef} className="gallery-list">
             {imagePaths.map((imagePath, index) => (
               <li key={index} className="gallery-item">
-                <img 
+                <Image 
                   src={imagePath} 
                   alt={`Gallery image ${index + 1}`}
+                  width={350}
+                  height={350}
+                  className="w-full h-auto object-cover"
                   loading="lazy"
                 />
               </li>

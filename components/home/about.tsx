@@ -77,7 +77,7 @@ const AboutSection = () => {
           willChange ? "will-change-opacity" : ""
         }`}
       >
-        DIPL's mission and vision drive its commitment to transform industries,
+        DIPL&apos;s mission and vision drive its commitment to transform industries,
         empower communities, and create a future-ready digital society.
       </span>
     </h1>
