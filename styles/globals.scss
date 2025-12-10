@@ -547,3 +547,81 @@ css-doodle {
   }
 }
 
+/* Hero Image Styles - Separate CSS for hero page */
+.hero-bg {
+  /* Mobile View */
+  @media (max-width: 767px) {
+    position: relative !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 400px !important;
+    margin: 1.5rem auto 0 !important;
+    transform: scale(0.9) !important;
+    overflow: hidden !important;
+    
+    svg {
+      width: 100% !important;
+      height: auto !important;
+      max-width: 100% !important;
+      max-height: 400px !important;
+      object-fit: contain !important;
+    }
+  }
+  
+  /* Tablet View */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    position: absolute !important;
+    width: 50% !important;
+    max-width: 50% !important;
+    height: auto !important;
+    max-height: 550px !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    transform: scale(1) !important;
+    
+    svg {
+      width: 100% !important;
+      height: auto !important;
+      max-width: 100% !important;
+      max-height: 550px !important;
+      object-fit: contain !important;
+    }
+  }
+  
+  /* System/Desktop View */
+  @media (min-width: 1024px) {
+    position: absolute !important;
+    width: 75% !important;
+    max-width: 75% !important;
+    height: auto !important;
+    max-height: 650px !important;
+    min-height: 500px !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    transform: scale(1) !important;
+    z-index: 0 !important;
+    
+    svg {
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100% !important;
+      max-height: 650px !important;
+      min-height: 500px !important;
+      object-fit: contain !important;
+      display: block !important;
+    }
+  }
+  
+  /* Large Desktop View */
+  @media (min-width: 1536px) {
+    max-height: 750px !important;
+    min-height: 600px !important;
+    
+    svg {
+      max-height: 750px !important;
+      min-height: 600px !important;
+    }
+  }
+}
+
