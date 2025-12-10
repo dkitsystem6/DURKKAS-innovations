@@ -18,7 +18,7 @@ const HERO_STYLES = {
   CONTENT: "font-medium flex flex-col pt-4 md:pt-0 select-none items-center md:items-start w-full max-w-full z-10 relative",
   SOCIAL_LINK: "link hover:opacity-80 duration-300 md:mr-4 mr-2",
   BG_WRAPPER:
-    "relative md:absolute hero-bg left-0 right-0 mx-auto md:right-0 md:left-auto md:mx-0 mt-6 md:mt-0 md:bottom-0 md:-z-1 w-full max-w-sm md:w-3/4 md:max-w-none scale-100 md:scale-100 flex items-center justify-center md:items-end md:justify-end z-0",
+    "relative md:absolute hero-bg left-0 right-0 mx-auto md:right-0 md:left-auto md:mx-0 mt-6 md:mt-0 md:bottom-0 md:-z-1 w-full max-w-xs md:max-w-sm md:w-3/4 md:max-w-none scale-90 md:scale-100 flex items-center justify-center md:items-end md:justify-end z-0 overflow-hidden",
   TYPED_SPAN: "text-xl sm:text-2xl md:text-4xl seq",
 };
 
@@ -73,8 +73,10 @@ const HeroSection = React.memo(() => {
   }, [typedSpanElement, targetSection]);
 
   const renderBackgroundImage = (): React.ReactNode => (
-    <div className={HERO_STYLES.BG_WRAPPER} style={{ maxHeight: "650px" }}>
-      <HeroImage />
+    <div className={HERO_STYLES.BG_WRAPPER} style={{ maxHeight: "400px", maxWidth: "100%" }}>
+      <div className="w-full h-full overflow-hidden">
+        <HeroImage />
+      </div>
     </div>
   );
 
