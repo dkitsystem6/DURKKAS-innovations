@@ -8,7 +8,7 @@ import { isSmallScreen, NO_MOTION_PREFERENCE_QUERY } from "pages";
 const COLLABORATION_STYLE = {
   SLIDING_TEXT: "opacity-30 md:opacity-20 text-base sm:text-lg md:text-5xl lg:text-7xl font-bold whitespace-nowrap w-full md:w-auto",
   SECTION:
-    "w-full relative select-none py-2 md:py-4 section-container flex flex-col overflow-x-hidden md:overflow-x-visible",
+    "w-full relative select-none py-4 md:py-6 section-container flex flex-col overflow-x-hidden md:overflow-x-visible",
   TITLE: "mt-6 md:mt-8 font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center px-4",
 };
 

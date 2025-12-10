@@ -10,7 +10,7 @@ import Image from "next/image";
 
 const HERO_STYLES = {
   SECTION:
-    "w-full flex md:items-center py-2 md:py-4 section-container min-h-screen relative mb-0 overflow-x-hidden",
+    "w-full flex md:items-center py-4 md:py-6 section-container min-h-screen relative mb-0 overflow-x-hidden",
   CONTENT: "font-medium flex flex-col md:flex-row md:items-center md:justify-between pt-32 md:pt-0 select-none w-full max-w-full gap-8 md:gap-12",
   BG_WRAPPER:
     "absolute hero-bg right-0 md:right-0 md:left-auto md:mx-0 bottom-8 md:bottom-0 -z-1 w-full max-w-sm md:w-1/2 md:max-w-none scale-100 md:scale-100 flex items-center justify-center md:items-end md:justify-end",

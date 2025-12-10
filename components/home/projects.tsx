@@ -13,7 +13,7 @@ import { IDesktop, NO_MOTION_PREFERENCE_QUERY } from "pages";
 
 const PROJECT_STYLES = {
   SECTION:
-    "w-full relative select-none section-container flex-col flex py-2 md:py-4 justify-center overflow-x-hidden",
+    "w-full relative select-none section-container flex-col flex py-4 md:py-6 justify-center overflow-x-hidden",
   PROJECTS_WRAPPER:
     "tall:mt-12 mt-6 grid grid-flow-col auto-cols-max md:gap-10 gap-6 project-wrapper w-fit seq snap-x scroll-pl-6 snap-mandatory",
 };

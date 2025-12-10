@@ -732,7 +732,7 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
 
   return (
     <section
-      className="w-full relative select-none min-h-screen section-container py-2 md:py-4 flex flex-col justify-center overflow-x-hidden"
+      className="w-full relative select-none min-h-screen section-container py-4 md:py-6 flex flex-col justify-center overflow-x-hidden"
       id={MENULINKS[3].ref}
     >
       {renderSectionTitle()}

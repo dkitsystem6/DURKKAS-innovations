@@ -445,7 +445,7 @@ const EducateDivisionSection = () => {
   return (
     <section
       id="division"
-      className={`pt-2 md:pt-4 pb-2 md:pb-4 w-full relative select-none section-container overflow-x-hidden`}
+      className={`pt-4 md:pt-6 pb-4 md:pb-6 w-full relative select-none section-container overflow-x-hidden`}
       ref={targetSection}
     >
       {renderContent()}

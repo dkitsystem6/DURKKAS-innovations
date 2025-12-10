@@ -13,7 +13,7 @@ import React from "react";
 
 const SKILL_STYLES = {
   SECTION:
-    "w-full relative select-none mb-0 section-container py-2 md:py-4 flex flex-col justify-center",
+    "w-full relative select-none mb-0 section-container py-4 md:py-6 flex flex-col justify-center",
   SKILL_TITLE: "section-title-sm mb-4 seq",
 };
 

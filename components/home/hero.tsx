@@ -14,7 +14,7 @@ import HeroImage from "./hero-image";
 
 const HERO_STYLES = {
   SECTION:
-    "w-full flex md:items-center py-2 md:py-4 section-container min-h-screen relative mb-0 overflow-x-hidden",
+    "w-full flex md:items-center py-4 md:py-6 section-container min-h-screen relative mb-0 overflow-x-hidden",
   CONTENT: "font-medium flex flex-col pt-32 md:pt-0 select-none items-center md:items-start w-full max-w-full",
   SOCIAL_LINK: "link hover:opacity-80 duration-300 md:mr-4 mr-2",
   BG_WRAPPER:
