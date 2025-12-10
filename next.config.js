@@ -29,32 +29,29 @@ const nextConfig = {
     
     // Production bundle optimization
     if (!dev && !isServer) {
-      config.optimization = {
-        ...config.optimization,
-        moduleIds: 'deterministic',
-        splitChunks: {
-          chunks: 'all',
-          cacheGroups: {
-            default: false,
-            vendors: false,
-            gsap: {
-              test: /[\\/]node_modules[\\/]gsap[\\/]/,
-              name: 'gsap',
-              priority: 30,
-              reuseExistingChunk: true,
-            },
-            matter: {
-              test: /[\\/]node_modules[\\/]matter-js[\\/]/,
-              name: 'matter',
-              priority: 25,
-              reuseExistingChunk: true,
-            },
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
-              priority: 10,
-              reuseExistingChunk: true,
-            },
+      // Only modify splitChunks, keep other optimizations
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          default: false,
+          vendors: false,
+          gsap: {
+            test: /[\\/]node_modules[\\/]gsap[\\/]/,
+            name: 'gsap',
+            priority: 30,
+            reuseExistingChunk: true,
+          },
+          matter: {
+            test: /[\\/]node_modules[\\/]matter-js[\\/]/,
+            name: 'matter',
+            priority: 25,
+            reuseExistingChunk: true,
+          },
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            priority: 10,
+            reuseExistingChunk: true,
           },
         },
       };
@@ -63,10 +60,8 @@ const nextConfig = {
     return config;
   },
 
-  // Compression
-  compress: true,
-
   // Cache control headers
+  // Note: Compression is handled automatically by Vercel
   async headers() {
     return [
       {

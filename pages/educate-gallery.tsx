@@ -22,7 +22,10 @@ import EducateGallerySection from "@/components/home/educate-gallery";
 
 const DEBOUNCE_TIME = 100;
 
-export const isSmallScreen = (): boolean => document.body.clientWidth < 767;
+export const isSmallScreen = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth < 767;
+};
 export const NO_MOTION_PREFERENCE_QUERY =
   "(prefers-reduced-motion: no-preference)";
 
