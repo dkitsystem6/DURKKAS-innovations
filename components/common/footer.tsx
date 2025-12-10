@@ -43,14 +43,13 @@ const Footer = () => {
       id={footerRef}
       style={{ minHeight: "auto" }}
     >
-      <img
+      <Image
         src="/footer-curve.svg"
         alt="Footer"
-        className="w-full"
-        loading="lazy"
-        height={290}
-        role="presentation"
         width={1440}
+        height={290}
+        className="w-full"
+        priority={false}
       />
       <div className="h-full w-full pb-0 mb-0">
         <div className="section-container flex-col flex h-full justify-end z-10 items-center py-12 pb-8 mb-0">

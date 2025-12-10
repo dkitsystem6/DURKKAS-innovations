@@ -6,7 +6,7 @@
 
 import { METADATA } from "../constants";
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { FaArrowUp, FaChartLine, FaRocket } from "react-icons/fa";
 
 import { gsap } from "gsap";
@@ -52,12 +52,13 @@ export default function Elevate() {
   gsap.config({ nullTargetWarn: false });
 
   const [isDesktop, setisDesktop] = useState(true);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  let timer: NodeJS.Timeout = null;
-
-  const debouncedDimensionCalculator = () => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
+  const debouncedDimensionCalculator = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+    timerRef.current = setTimeout(() => {
       const isDesktopResult =
         typeof window.orientation === "undefined" &&
         navigator.userAgent.indexOf("IEMobile") === -1;
@@ -66,7 +67,7 @@ export default function Elevate() {
 
       setisDesktop(isDesktopResult);
     }, DEBOUNCE_TIME);
-  };
+  }, []);
 
   useEffect(() => {
     debouncedDimensionCalculator();
@@ -76,8 +77,11 @@ export default function Elevate() {
       window.removeEventListener("resize", debouncedDimensionCalculator);
       // Clean up all ScrollTrigger instances
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
     };
-  }, [timer]);
+  }, [debouncedDimensionCalculator]);
 
   const renderBackdrop = (): React.ReactNode => (
     <div className="fixed top-0 left-0 h-screen w-screen -z-1" style={{ backgroundColor: '#05347e' }}></div>

@@ -2,7 +2,7 @@
 
 import { METADATA } from "../constants";
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
@@ -55,12 +55,13 @@ export default function Innovate() {
 
   const [isDesktop, setisDesktop] = useState(true);
   const [isBulbOn, setIsBulbOn] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  let timer: NodeJS.Timeout = null;
-
-  const debouncedDimensionCalculator = () => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
+  const debouncedDimensionCalculator = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+    timerRef.current = setTimeout(() => {
       const isDesktopResult =
         typeof window.orientation === "undefined" &&
         navigator.userAgent.indexOf("IEMobile") === -1;
@@ -69,7 +70,7 @@ export default function Innovate() {
 
       setisDesktop(isDesktopResult);
     }, DEBOUNCE_TIME);
-  };
+  }, []);
 
   useEffect(() => {
     debouncedDimensionCalculator();
@@ -79,9 +80,11 @@ export default function Innovate() {
       window.removeEventListener("resize", debouncedDimensionCalculator);
       // Clean up all ScrollTrigger instances
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-      if (timer) clearTimeout(timer);
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
     };
-  }, []);
+  }, [debouncedDimensionCalculator]);
 
   // Animate sections when bulb turns on - optimized
   useEffect(() => {

@@ -264,7 +264,7 @@ const ContactForm = () => {
                         />
                       </svg>
                       <p className="text-white text-lg font-medium">
-                        ✓ Message sent successfully! We'll get back to you soon.
+                        ✓ Message sent successfully! We&apos;ll get back to you soon.
                       </p>
                     </div>
                   ) : null}
