@@ -180,7 +180,7 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
 
     // Mobile-only images directly under each DURKAS letter and KPI Tracking
     let mobileImageString = "";
-    if (isMobile) {
+    if (isSmallScreen()) {
       const slidesWithImages = svgCheckpointItems.filter(
         (item) => (item as CheckpointNode).slideImage
       ) as CheckpointNode[];
@@ -206,13 +206,19 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
       if (slideIndex !== undefined) {
         const slideNode = slidesWithImages[slideIndex];
         if (slideNode && slideNode.slideImage) {
-          mobileImageString = `<div class='mt-1 rounded-xl overflow-hidden shadow-lg'><img src='${slideNode.slideImage}' alt='Timeline' class='w-full h-40 object-cover md:hidden' loading='lazy' /></div>`;
+          mobileImageString = `<div class='mt-1 mx-2 rounded-xl overflow-hidden shadow-lg'><img src='${slideNode.slideImage}' alt='Timeline' class='w-full h-32 object-cover md:hidden' loading='lazy' /></div>`;
         }
       }
     }
 
+    // For 'Keep', place image directly below title and above subtitle
+    const contentAfterTitle =
+      title === "Keep"
+        ? `${mobileImageString}${subtitleString}`
+        : `${subtitleString}${mobileImageString}`;
+
     return `<foreignObject x=${foreignObjectX} y=${foreignObjectY} width=${foreignObjectWidth} 
-        height=${separation}>${logoString}<p class='${titleSizeClass}${titleColorClass}'>${title}</p>${subtitleString}${mobileImageString}</foreignObject>`;
+        height=${separation}>${logoString}<p class='${titleSizeClass}${titleColorClass}'>${title}</p>${contentAfterTitle}</foreignObject>`;
   };
 
   const drawLine = (
