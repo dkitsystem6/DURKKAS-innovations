@@ -168,6 +168,8 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
     const foreignObjectWidth = svgWidth - (dotSize / 2 + 10 + offset);
 
     const titleSizeClass = size === ItemSize.LARGE ? "text-6xl" : "text-2xl";
+    const highlightedLetters = ["D", "U", "R", "K", "A", "S"];
+    const titleColorClass = highlightedLetters.includes(title) ? " text-yellow-400" : "";
     // eslint-disable-next-line @next/next/no-img-element
     const logoString = image
       ? `<img src='${image}' class='h-8 mb-2' loading='lazy' width='100' height='32' alt='${image}' />`
@@ -176,8 +178,41 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
       ? `<p class='text-sm md:text-xl mt-2 text-gray-200 font-medium tracking-wide'>${subtitle}</p>`
       : "";
 
+    // Mobile-only images directly under each DURKAS letter and KPI Tracking
+    let mobileImageString = "";
+    if (isSmallScreen()) {
+      const slidesWithImages = svgCheckpointItems.filter(
+        (item) => (item as CheckpointNode).slideImage
+      ) as CheckpointNode[];
+
+      // Map letters to specific slide indexes in slidesWithImages
+      const letterToIndex: Record<string, number> = {
+        D: 0, // Data
+        U: 1, // Understand
+        R: 2, // Recommend
+        K: 3, // Keep
+        A: 5, // Automate
+        S: 6, // Scale
+      };
+
+      let slideIndex: number | undefined;
+
+      if (highlightedLetters.includes(title)) {
+        slideIndex = letterToIndex[title];
+      } else if (title === "KPI Tracking") {
+        slideIndex = 4; // KPI Tracking image
+      }
+
+      if (slideIndex !== undefined) {
+        const slideNode = slidesWithImages[slideIndex];
+        if (slideNode && slideNode.slideImage) {
+          mobileImageString = `<div class='mt-1 rounded-xl overflow-hidden shadow-lg'><img src='${slideNode.slideImage}' alt='Timeline' class='w-full h-40 object-cover md:hidden' loading='lazy' /></div>`;
+        }
+      }
+    }
+
     return `<foreignObject x=${foreignObjectX} y=${foreignObjectY} width=${foreignObjectWidth} 
-        height=${separation}>${logoString}<p class='${titleSizeClass}'>${title}</p>${subtitleString}</foreignObject>`;
+        height=${separation}>${logoString}<p class='${titleSizeClass}${titleColorClass}'>${title}</p>${subtitleString}${mobileImageString}</foreignObject>`;
   };
 
   const drawLine = (
