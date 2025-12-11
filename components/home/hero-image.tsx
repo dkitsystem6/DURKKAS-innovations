@@ -463,6 +463,19 @@ const HeroImage = () => (
           d="M491.701 385.65v33.65h-58.7a3.967 3.967 0 01-3.97-3.96v-34.77h57.59a5.087 5.087 0 015.08 5.08z"
           fill="#00D3FF"
         />
+
+        {/* DURKKAS label where the colourful code block was removed */}
+        <text
+          x={535}
+          y={350}
+          fill="#FFFFFF"
+          fontSize={22}
+          fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          fontWeight={800}
+          textAnchor="middle"
+        >
+          DURKKAS
+        </text>
         <path
           id="Oval_13"
           d="M571.835 522.13a1.656 1.656 0 10-.002-3.312 1.656 1.656 0 00.002 3.312z"
