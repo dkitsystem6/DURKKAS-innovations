@@ -17,7 +17,7 @@ export const MENULINKS = [
     ref: "home",
   },
   {
-    name: "About",
+    name: "Our Division",
     ref: "about",
   },
   {

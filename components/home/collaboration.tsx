@@ -12,7 +12,7 @@ import { isSmallScreen, NO_MOTION_PREFERENCE_QUERY } from "pages";
 const COLLABORATION_STYLE = {
   SLIDING_TEXT: "opacity-30 md:opacity-20 text-base sm:text-lg md:text-5xl lg:text-7xl font-bold whitespace-nowrap w-full md:w-auto",
   SECTION:
-    "w-full relative select-none py-4 md:py-6 section-container flex flex-col overflow-x-hidden md:overflow-x-visible",
+    "w-full relative select-none py-4 md:py-6 flex flex-col overflow-x-hidden md:overflow-x-visible",
   TITLE: "mt-6 md:mt-8 font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center px-4",
 };
 
@@ -46,15 +46,18 @@ const CollaborationSection = () => {
   const initSlidingTextAnimation = (
     targetSection: MutableRefObject<HTMLDivElement>
   ) => {
+    // Disable scroll-triggered animation on mobile
+    if (isSmallScreen()) return; // Return undefined if mobile
+
     const slidingTl = gsap.timeline({ defaults: { ease: Linear.easeNone } });
 
     slidingTl
       .to(targetSection.current.querySelector(".ui-left"), {
-        xPercent: isSmallScreen() ? -500 : -150,
+        xPercent: -150,
       })
       .from(
         targetSection.current.querySelector(".ui-right"),
-        { xPercent: isSmallScreen() ? -500 : -150 },
+        { xPercent: -150 },
         "<"
       );
 
@@ -83,15 +86,99 @@ const CollaborationSection = () => {
     };
   }, [quoteRef, targetSection]);
 
-  const renderSlidingText = (text: string, layoutClasses: string) => (
-    <p className={`${layoutClasses} ${COLLABORATION_STYLE.SLIDING_TEXT} overflow-hidden md:overflow-visible`}>
-      <span className="inline-block md:inline">
-      {Array(5)
-        .fill(text)
-        .reduce((str, el) => str.concat(el), "")}
-      </span>
-    </p>
-  );
+  // Auto-scrolling animation for mobile
+  useEffect(() => {
+    if (typeof window === 'undefined' || window.innerWidth >= 768) return; // Only for mobile
+
+    const leftText = document.querySelector('.ui-left span');
+    const rightText = document.querySelector('.ui-right span');
+    let leftAnimation: gsap.core.Tween;
+    let rightAnimation: gsap.core.Tween;
+
+    // Function to create continuous scroll animation
+    const createInfiniteScroll = (element: Element, direction: 'left' | 'right') => {
+      if (!element) return null;
+      
+      const content = element.innerHTML;
+      
+      // Repeat content enough times to ensure smooth infinite scroll
+      // For mobile, we generally need more duplication to cover the scroll area
+      element.innerHTML = content + content + content + content; 
+      
+      // We are duplicating 4 times. 
+      // The animation should move by the width of 1 unit (1/4th of total now)
+      // or simply rely on xPercent.
+      
+      // Reset position
+      gsap.set(element, { x: 0, xPercent: 0 });
+      
+      // For seamless loop: move -50% if we doubled, or calculate based on content width.
+      // Simpler approach for text: just move indefinitely and rely on the repetition.
+      // But to be "seamless", the restart point must match the start point.
+      // If we have [A B A B], and we move from 0 to -width(AB), it looks like we are back at 0? 
+      // No, we need to move by exactly width(A). 
+      // If we have [A A A A], we move by width(A), then reset to 0.
+      
+      // Let's assume the span contains "Text Text" initially (from render function).
+      // If we append 3 more copies: "Text Text" + "Text Text" + ... 
+      // It becomes effectively A A A A A A A A.
+      
+      // Use xPercent for better responsiveness
+      // We want to move 1 "chunk" to the left (or right) and then reset.
+      // If we appended content 3 times (total 4 chunks), moving -25% corresponds to 1 chunk.
+      
+      // Direction handling:
+      // Left: move from 0 to -25%
+      // Right: move from -25% to 0 (start at -25%)
+      
+      if (direction === 'right') {
+        gsap.set(element, { xPercent: -25 });
+        return gsap.to(element, {
+          xPercent: 0,
+          duration: 10, // Adjust speed
+          ease: 'none',
+          repeat: -1
+        });
+      } else {
+        gsap.set(element, { xPercent: 0 });
+        return gsap.to(element, {
+          xPercent: -25,
+          duration: 10, // Adjust speed
+          ease: 'none',
+          repeat: -1
+        });
+      }
+    };
+
+    // Create animations
+    if (leftText) {
+      leftAnimation = createInfiniteScroll(leftText, 'left');
+    }
+
+    if (rightText) {
+      rightAnimation = createInfiniteScroll(rightText, 'right');
+    }
+
+    return () => {
+      leftAnimation?.kill();
+      rightAnimation?.kill();
+    };
+  }, []);
+
+  const renderSlidingText = (text: string, layoutClasses: string) => {
+    const isLeft = layoutClasses.includes('ui-left');
+    const isRight = layoutClasses.includes('ui-right');
+    
+    return (
+      <div className="relative w-full overflow-hidden">
+        <p className={`${layoutClasses} ${COLLABORATION_STYLE.SLIDING_TEXT} md:overflow-visible`}>
+          <span className="inline-block md:inline whitespace-nowrap">
+            {text.trim()} {text.trim()}
+          </span>
+        </p>
+      </div>
+    );
+  };
 
   const renderTitle = () => (
     <h1
@@ -106,17 +193,21 @@ const CollaborationSection = () => {
 
   return (
     <section className={COLLABORATION_STYLE.SECTION} ref={targetSection}>
-      {renderSlidingText(
-        " We build smart technology solutions for seamless digital transformation. ",
-        "ui-left"
-      )}
+<div className="w-full">
+        {renderSlidingText(
+          " We build smart technology solutions for seamless digital transformation. ",
+          "ui-left"
+        )}
+      </div>
 
       {renderTitle()}
 
-      {renderSlidingText(
-        "Innovating Technology, Transforming Education, Empowering Businesses.",
-        "mt-6 md:mt-8 ui-right"
-      )}
+      <div className="w-full">
+        {renderSlidingText(
+          "Innovating Technology, Transforming Education, Empowering Businesses.",
+          "mt-6 md:mt-8 ui-right"
+        )}
+      </div>
     </section>
   );
 };

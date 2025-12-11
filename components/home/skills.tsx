@@ -13,7 +13,7 @@ import React from "react";
 
 const SKILL_STYLES = {
   SECTION:
-    "w-full relative select-none mb-0 section-container py-4 md:py-6 flex flex-col justify-center",
+    "w-full relative select-none mb-0 section-container py-4 md:py-6 flex flex-col justify-center overflow-x-hidden",
   SKILL_TITLE: "section-title-sm mb-4 seq",
 };
 
@@ -55,23 +55,26 @@ const SkillsSection = React.memo(() => {
 
     const scrollTrigger = ScrollTrigger.create({
       trigger: skillsWrapper,
-      start: "100px bottom",
-      end: `center center`,
+      start: "top 80%",  // Start when top of element is 80% down the viewport
+      end: "top 20%",    // End when top of element is 20% down the viewport
       animation: revealTl,
-      scrub: 0,
-      onToggle: (self) => {
-        setwillChange(self.isActive);
-        // Optimize will-change property
-        if (self.isActive) {
-          seqElements.forEach((el) => {
-            (el as HTMLElement).style.willChange = 'opacity';
-          });
-        } else {
-          seqElements.forEach((el) => {
-            (el as HTMLElement).style.willChange = 'auto';
-          });
-        }
+      scrub: 0.5,        // Smoother scrubbing
+      markers: false,    // Set to true for debugging
+      onEnter: () => {
+        setwillChange(true);
+        seqElements.forEach((el) => {
+          (el as HTMLElement).style.willChange = 'opacity';
+        });
       },
+      onLeaveBack: () => {
+        setwillChange(false);
+        seqElements.forEach((el) => {
+          (el as HTMLElement).style.willChange = 'auto';
+        });
+      },
+      onUpdate: (self) => {
+        // Optional: Add progress-based effects here if needed
+      }
     });
 
     scrollTriggerRef.current = scrollTrigger;
@@ -107,32 +110,44 @@ const SkillsSection = React.memo(() => {
     };
   }, [targetSection, initRevealAnimation]);
 
-  // Handle resize for proper cleanup and reinitialization
+  // Handle resize and scroll position updates
   useEffect(() => {
     let resizeTimeout: NodeJS.Timeout;
+    let rafId: number;
 
     const handleResize = () => {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
         if (!targetSection.current) return;
-
-        // Refresh ScrollTrigger on resize
-        ScrollTrigger.refresh();
-      }, 150);
+        
+        // Use requestAnimationFrame for smoother updates
+        rafId = requestAnimationFrame(() => {
+          ScrollTrigger.refresh();
+        });
+      }, 100);
     };
 
+    // Initial refresh after component mounts
+    const initTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
+
     window.addEventListener("resize", handleResize, { passive: true });
+    window.addEventListener("orientationchange", handleResize, { passive: true });
 
     return () => {
       clearTimeout(resizeTimeout);
+      clearTimeout(initTimer);
+      cancelAnimationFrame(rafId);
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
     };
   }, []);
 
   const renderSectionTitle = (): React.ReactNode => (
     <div className="flex flex-col">
       <p className="section-title-sm seq">Vision & Mission</p>
-      <h1 className="section-heading seq mt-2">Our Vision for the Future</h1>
+      <h1 className="section-heading seq mt-2 bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 bg-clip-text text-transparent">Our Vision for the Future</h1>
       <h2 className="text-2xl md:max-w-2xl w-full seq mt-2">
         Empowering society through digital transformation, continuous learning and sustainable growth.
       </h2>
@@ -270,7 +285,7 @@ const SkillsSection = React.memo(() => {
   );
 
   return (
-    <section className="relative overflow-x-hidden w-full">
+    <section className="relative w-full max-w-[100vw] overflow-hidden">
       {renderBackgroundPattern()}
       <div
         className={SKILL_STYLES.SECTION}

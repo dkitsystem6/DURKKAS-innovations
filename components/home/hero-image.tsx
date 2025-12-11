@@ -2443,18 +2443,18 @@ const HeroImage = () => (
       </g>
       <image
         href="/projects/dare.png"
-        x={658.5}
-        y={194}
-        width={25}
-        height={38}
+        x={610}
+        y={443}
+        width={78}
+        height={70}
         preserveAspectRatio="xMidYMid meet"
       />
       <image
         href="/favicon.png"
-        x="737"
-        y="215"
-        width="35"
-        height="35"
+        x="475"
+        y="205"
+        width="120"
+        height="120"
         preserveAspectRatio="xMidYMid meet"
       />
     </g>

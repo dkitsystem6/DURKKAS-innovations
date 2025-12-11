@@ -26,7 +26,7 @@ const DIVISIONS: Division[] = [
   },
   {
     name: "School of Languages",
-    description: "School of Languages provides exciting and effective language learning courses in Tamil, English, and Hindi. Additionally, we collaborate with the Indian School For Foreign Languages for French, German, and Japanese. Our dynamic and immersive learning methods are intended to improve speaking, writing, and listening abilities, ensuring overall competency.",
+    description: "School of Languages offers engaging Tamil, English, and Hindi courses, and partners with the Indian School for Foreign Languages to provide French, German, and Japanese. Our immersive training enhances speaking, writing, and listening skills for complete language development.",
     features: [
       "Skill-Focused LSRW Course",
       "Interactive Learning with the Harkness Method",
@@ -58,6 +58,7 @@ const EducateDivisionSection = () => {
   const containerRef: MutableRefObject<HTMLDivElement> = useRef(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (!targetSection.current) return;
@@ -112,7 +113,33 @@ const EducateDivisionSection = () => {
     });
   }, [activeIndex]);
 
+  // Check if mobile on mount and on resize
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint in Tailwind
+    };
+    
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+    };
+  }, []);
+
+  // Auto-scroll for mobile
+  useEffect(() => {
+    if (!isMobile) return;
+    
+    const interval = setInterval(() => {
+      setActiveIndex(prev => (prev + 1) % DIVISIONS.length);
+    }, 10000);
+    
+    return () => clearInterval(interval);
+  }, [isMobile]);
+
   const handleCardClick = (index: number) => {
+    if (isMobile) return; // Prevent manual navigation on mobile
     if (index === activeIndex) return;
     
     // Animate out current card
@@ -423,17 +450,6 @@ const EducateDivisionSection = () => {
                     Enquiry Now
                   </button>
                 </div>
-                {index === activeIndex && (
-                  <div className="card-nav" onClick={(e) => {
-                    e.stopPropagation();
-                    handleNext();
-                  }}>
-                    <svg viewBox="0 0 448 512" fill="white">
-                      <title>Next</title>
-                      <path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34zm192-34l-136-136c-9.4-9.4-24.6-9.4-33.9 0l-22.6 22.6c-9.4 9.4-9.4 24.6 0 33.9l96.4 96.4-96.4 96.4c-9.4 9.4-9.4 24.6 0 33.9l22.6 22.6c9.4 9.4 24.6 9.4 33.9 0l136-136c9.4-9.2 9.4-24.4 0-33.8z" />
-                    </svg>
-                  </div>
-                )}
               </div>
             </div>
           ))}
@@ -444,14 +460,89 @@ const EducateDivisionSection = () => {
 
   return (
     <section
-      id="division"
-      className={`pt-4 md:pt-6 pb-4 md:pb-6 w-full relative select-none section-container overflow-x-hidden`}
+      id="divisions"
+      className={`pt-4 md:pt-6 pb-16 md:pb-6 w-full relative select-none section-container`}
       ref={targetSection}
     >
-      {renderContent()}
+      <div className="relative">
+        {renderContent()}
+        
+        {/* Desktop Navigation Buttons - Sides */}
+        <div className="hidden md:flex absolute inset-y-0 left-0 right-0 items-center justify-between pointer-events-none px-4">
+          {/* Previous Button - Left Side */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              const prevIndex = (activeIndex - 1 + DIVISIONS.length) % DIVISIONS.length;
+              handleCardClick(prevIndex);
+            }}
+            className="bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full p-4 text-white transition-all duration-300 transform hover:scale-110 -ml-8 pointer-events-auto"
+            style={{
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)'
+            }}
+          >
+            <svg
+              className="w-8 h-8"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+
+          {/* Next Button - Right Side */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              const nextIndex = (activeIndex + 1) % DIVISIONS.length;
+              handleCardClick(nextIndex);
+            }}
+            className="bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full p-4 text-white transition-all duration-300 transform hover:scale-110 -mr-8 pointer-events-auto"
+            style={{
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)'
+            }}
+          >
+            <svg
+              className="w-8 h-8"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </div>
+        
+        {/* Mobile Navigation - Only show dots for mobile */}
+        <div className="md:hidden absolute bottom-0 left-0 right-0 flex justify-center gap-2 pb-4">
+          {DIVISIONS.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveIndex(index)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === activeIndex ? 'bg-white w-6' : 'bg-white/40 w-2'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+          
+        </div>
+      </div>
     </section>
   );
 };
 
 export default EducateDivisionSection;
-
