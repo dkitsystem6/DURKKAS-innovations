@@ -47,9 +47,10 @@ const SkillsSection = React.memo(() => {
     const seqElements = targetSection.current.querySelectorAll(".seq");
     if (seqElements.length === 0) return null;
 
-    revealTl.from(
+    revealTl.fromTo(
       seqElements,
-      { opacity: 0, duration: 0.5, stagger: 0.5 },
+      { opacity: 0 },
+      { opacity: 1, duration: 0.5, stagger: 0.5, immediateRender: false },
       "<"
     );
 

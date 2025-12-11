@@ -30,9 +30,10 @@ const ProjectsSection = ({ isDesktop }: IDesktop) => {
     targetSectionRef: MutableRefObject<HTMLDivElement>
   ): [GSAPTimeline, ScrollTrigger] => {
     const revealTl = gsap.timeline({ defaults: { ease: Linear.easeNone } });
-    revealTl.from(
+    revealTl.fromTo(
       targetSectionRef.current.querySelectorAll(".seq"),
-      { opacity: 0, duration: 0.5, stagger: 0.5 },
+      { opacity: 0 },
+      { opacity: 1, duration: 0.5, stagger: 0.5, immediateRender: false },
       "<"
     );
 
