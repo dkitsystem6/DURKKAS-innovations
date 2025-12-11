@@ -165,7 +165,7 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
     const offset = isDiverged ? rightBranchX : 10;
     const foreignObjectX = dotSize / 2 + 10 + offset;
     const foreignObjectY = y - dotSize / 2;
-    const foreignObjectWidth = svgWidth - (dotSize / 2 + 10 + offset);
+    const foreignObjectWidth = svgWidth - (dotSize / 2 + 10 + offset) - 16; // small right margin to avoid clipping
 
     const titleSizeClass = size === ItemSize.LARGE ? "text-6xl" : "text-2xl";
     const highlightedLetters = ["D", "U", "R", "K", "A", "S"];
@@ -174,8 +174,50 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
     const logoString = image
       ? `<img src='${image}' class='h-8 mb-2' loading='lazy' width='100' height='32' alt='${image}' />`
       : "";
+    let processedSubtitle = subtitle || "";
+
+    // For Data subtitle, insert a mobile-only line break after 'business,'
+    if (title === "Data") {
+      processedSubtitle = processedSubtitle.replace(
+        "business,",
+        "business,<br class='block md:hidden' />"
+      );
+    }
+
+    // For Understand subtitle, insert a mobile-only line break after 'and'
+    if (title === "Understand") {
+      processedSubtitle = processedSubtitle.replace(
+        "and ",
+        "and<br class='block md:hidden' /> "
+      );
+    }
+
+    // For Keep subtitle, insert a mobile-only line break after 'reduce'
+    if (title === "Keep") {
+      processedSubtitle = processedSubtitle.replace(
+        "reduce ",
+        "reduce<br class='block md:hidden' /> "
+      );
+    }
+
+    // For KPI Tracking subtitle, insert a mobile-only line break after 'using'
+    if (title === "KPI Tracking") {
+      processedSubtitle = processedSubtitle.replace(
+        "using ",
+        "using<br class='block md:hidden' /> "
+      );
+    }
+
+    // For Automate subtitle, insert a mobile-only line break after 'and'
+    if (title === "Automate") {
+      processedSubtitle = processedSubtitle.replace(
+        "and ",
+        "and<br class='block md:hidden' /> "
+      );
+    }
+
     const subtitleString = subtitle
-      ? `<p class='text-sm md:text-xl mt-2 text-gray-200 font-medium tracking-wide'>${subtitle}</p>`
+      ? `<p class='text-sm md:text-xl mt-2 text-gray-200 font-medium tracking-wide'>${processedSubtitle}</p>`
       : "";
 
     // Mobile-only images directly under each DURKAS letter and KPI Tracking
@@ -206,7 +248,7 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
       if (slideIndex !== undefined) {
         const slideNode = slidesWithImages[slideIndex];
         if (slideNode && slideNode.slideImage) {
-          mobileImageString = `<div class='mt-1 mx-2 rounded-xl overflow-hidden shadow-lg'><img src='${slideNode.slideImage}' alt='Timeline' class='w-full h-32 object-cover md:hidden' loading='lazy' /></div>`;
+          mobileImageString = `<div class='mt-1 mx-2 rounded-xl overflow-hidden shadow-lg flex justify-center'><img src='${slideNode.slideImage}' alt='Timeline' class='w-11/12 h-36 object-cover md:hidden' loading='lazy' /></div>`;
         }
       }
     }
