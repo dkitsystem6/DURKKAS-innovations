@@ -48,7 +48,7 @@ const InnovateHeroSection = React.memo(({ onBulbClick }: InnovateHeroSectionProp
   // Call parent callback on mount since bulb is always on
   useEffect(() => {
     onBulbClick();
-  }, []);
+  }, [onBulbClick]);
 
   const renderHeroContent = (): React.ReactNode => (
     <div className={HERO_STYLES.CONTENT} style={{ cursor: 'default' }}>
