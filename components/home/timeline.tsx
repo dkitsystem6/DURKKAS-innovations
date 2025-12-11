@@ -180,7 +180,7 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
 
     // Mobile-only images directly under each DURKAS letter and KPI Tracking
     let mobileImageString = "";
-    if (isSmallScreen()) {
+    if (isMobile) {
       const slidesWithImages = svgCheckpointItems.filter(
         (item) => (item as CheckpointNode).slideImage
       ) as CheckpointNode[];
