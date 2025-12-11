@@ -112,8 +112,8 @@ const InnovateHeroSection = React.memo(({ onBulbClick }: InnovateHeroSectionProp
           </h2>
         </div>
 
-        {/* Purpose */}
-        <div className="flex items-start gap-4">
+        {/* Purpose - hidden on mobile, visible from md and up */}
+        <div className="hidden md:flex items-start gap-4">
           <div className="flex-shrink-0 mt-1">
             <div className="w-1 h-12 bg-gradient-to-b from-[#0a5ba8] to-[#05347e] rounded-full"></div>
           </div>

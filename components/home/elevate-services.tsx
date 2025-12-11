@@ -4,9 +4,8 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-import { gsap, Linear, Power2 } from "gsap";
-import React, { MutableRefObject, useEffect, useRef, useState } from "react";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { gsap, Power2 } from "gsap";
+import React, { MutableRefObject, useEffect, useRef } from "react";
 
 const SERVICES = [
   {
@@ -35,43 +34,6 @@ const ElevateServicesSection = () => {
   const targetSection: MutableRefObject<HTMLDivElement> = useRef(null);
   const cardsContainerRef: MutableRefObject<HTMLDivElement> = useRef(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [willChange, setwillChange] = useState(false);
-
-  const initServicesAnimation = (
-    targetSection: MutableRefObject<HTMLDivElement>
-  ): ScrollTrigger => {
-    const timeline = gsap.timeline({
-      defaults: { ease: Linear.easeNone, duration: 0.1 },
-    });
-    
-    timeline.from(
-      targetSection.current.querySelectorAll(".seq"),
-      { opacity: 0, duration: 0.5, stagger: 0.5 },
-      "<"
-    );
-
-    const scrollTriggerInstance = ScrollTrigger.create({
-      trigger: targetSection.current,
-      start: "top 80%",
-      end: "top top",
-      scrub: 0,
-      animation: timeline,
-      onToggle: (self) => setwillChange(self.isActive),
-    });
-    return scrollTriggerInstance;
-  };
-
-  useEffect(() => {
-    if (!targetSection.current) return;
-    
-    const servicesScrollTriggerInstance = initServicesAnimation(targetSection);
-
-    return () => {
-      if (servicesScrollTriggerInstance) {
-        servicesScrollTriggerInstance.kill();
-      }
-    };
-  }, [targetSection]);
 
   // Animate cards on scroll
   useEffect(() => {
@@ -93,11 +55,6 @@ const ElevateServicesSection = () => {
           duration: 0.8,
           delay: index * 0.1,
           ease: Power2.easeOut,
-          scrollTrigger: {
-            trigger: card,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
         }
       );
     });
