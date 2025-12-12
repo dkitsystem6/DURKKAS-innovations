@@ -13,6 +13,7 @@ const ContactForm = () => {
   const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(null);
   const [formData, setFormData] = useState({
     name: "",
+    companyName: "",
     email: "",
     phone: "",
     message: "",
@@ -62,6 +63,13 @@ const ContactForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate all required fields
+    if (!formData.name || !formData.companyName || !formData.email || !formData.phone || !formData.message) {
+      setSubmitStatus("error");
+      return;
+    }
+    
     setIsSubmitting(true);
     setSubmitStatus(null);
 
@@ -83,8 +91,9 @@ const ContactForm = () => {
 
       const templateParams = {
         from_name: formData.name,
+        company_name: formData.companyName,
         from_email: formData.email,
-        phone: formData.phone || "Not provided",
+        phone: formData.phone,
         message: formData.message,
         to_email: "dkit.system6@gmail.com",
         reply_to: formData.email,
@@ -93,7 +102,7 @@ const ContactForm = () => {
       await emailjs.send(serviceId, templateId, templateParams);
       
       setSubmitStatus("success");
-      setFormData({ name: "", email: "", phone: "", message: "" });
+      setFormData({ name: "", companyName: "", email: "", phone: "", message: "" });
       
       // Close modal after 2 seconds
       setTimeout(() => {
@@ -194,11 +203,12 @@ const ContactForm = () => {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 animate-fadeIn"
           onClick={handleBackdropClick}
         >
-          <div className="bg-[#05347e] rounded-lg shadow-2xl w-full max-w-md mx-4 p-6 relative animate-slideUp max-h-[90vh] overflow-y-auto">
+          <div className="bg-[#05347e] rounded-lg shadow-2xl w-full max-w-md mx-4 p-6 relative animate-slideUp max-h-[90vh] overflow-y-auto" style={{ cursor: 'default' }}>
             {/* Close Button */}
             <button
               onClick={() => setIsOpen(false)}
               className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
+              style={{ cursor: 'pointer' }}
               aria-label="Close"
             >
               <svg
@@ -218,7 +228,7 @@ const ContactForm = () => {
 
             {/* Form Header */}
             <h2 className="text-2xl font-bold text-white mb-6">
-              Contact Us
+              Let's Connect & Transform Your Business
             </h2>
 
             {/* Loading Overlay */}
@@ -280,7 +290,7 @@ const ContactForm = () => {
                   htmlFor="name"
                   className="block text-sm font-medium text-gray-200 mb-2"
                 >
-                  Name *
+                  Name <span className="text-red-400">*</span>
                 </label>
                 <input
                   type="text"
@@ -290,7 +300,29 @@ const ContactForm = () => {
                   onChange={handleInputChange}
                   required
                   className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0a5ba8] focus:border-transparent"
+                  style={{ cursor: 'text' }}
                   placeholder="Your Name"
+                />
+              </div>
+
+              {/* Company Name Input */}
+              <div>
+                <label
+                  htmlFor="companyName"
+                  className="block text-sm font-medium text-gray-200 mb-2"
+                >
+                  Company Name <span className="text-red-400">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="companyName"
+                  name="companyName"
+                  value={formData.companyName}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0a5ba8] focus:border-transparent"
+                  style={{ cursor: 'text' }}
+                  placeholder="Your Company Name"
                 />
               </div>
 
@@ -300,7 +332,7 @@ const ContactForm = () => {
                   htmlFor="email"
                   className="block text-sm font-medium text-gray-200 mb-2"
                 >
-                  Email *
+                  Email <span className="text-red-400">*</span>
                 </label>
                 <input
                   type="email"
@@ -310,6 +342,7 @@ const ContactForm = () => {
                   onChange={handleInputChange}
                   required
                   className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0a5ba8] focus:border-transparent"
+                  style={{ cursor: 'text' }}
                   placeholder="your.email@example.com"
                 />
               </div>
@@ -320,7 +353,7 @@ const ContactForm = () => {
                   htmlFor="phone"
                   className="block text-sm font-medium text-gray-200 mb-2"
                 >
-                  Phone
+                  Phone Number <span className="text-red-400">*</span>
                 </label>
                 <input
                   type="tel"
@@ -328,7 +361,9 @@ const ContactForm = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
+                  required
                   className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0a5ba8] focus:border-transparent"
+                  style={{ cursor: 'text' }}
                   placeholder="+1 234 567 8900"
                 />
               </div>
@@ -339,7 +374,7 @@ const ContactForm = () => {
                   htmlFor="message"
                   className="block text-sm font-medium text-gray-200 mb-2"
                 >
-                  Message *
+                  Message <span className="text-red-400">*</span>
                 </label>
                 <textarea
                   id="message"
@@ -347,8 +382,9 @@ const ContactForm = () => {
                   value={formData.message}
                   onChange={handleInputChange}
                   required
-                  rows={4}
+                  rows={1}
                   className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0a5ba8] focus:border-transparent resize-none"
+                  style={{ cursor: 'text' }}
                   placeholder="Tell us how we can help you..."
                 />
               </div>
@@ -365,7 +401,7 @@ const ContactForm = () => {
                 type="submit"
                 disabled={isSubmitting}
                 className={`w-full bg-gradient-to-r from-[#0a5ba8] to-[#05347e] text-white font-medium py-3 px-6 rounded-lg hover:from-[#05347e] hover:to-[#0a5ba8] transition-all duration-300 shadow-lg hover:shadow-xl ${
-                  isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                  isSubmitting ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
                 }`}
               >
                 {isSubmitting ? "Sending..." : "Send Message"}

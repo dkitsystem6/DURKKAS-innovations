@@ -37,7 +37,7 @@ const PageLoader = () => {
   if (!loading) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#05347e]">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#0d4a8f]">
       <div className="flex flex-col items-center">
         <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
         <p className="mt-4 text-white text-lg font-medium">Loading...</p>

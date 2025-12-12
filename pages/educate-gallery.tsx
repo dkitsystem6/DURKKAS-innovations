@@ -15,9 +15,9 @@ import Layout from "@/components/common/layout";
 import Header from "@/components/common/header";
 import ProgressIndicator from "@/components/common/progress-indicator";
 import Cursor from "@/components/common/cursor";
-import Footer from "@/components/common/footer";
 import Scripts from "@/components/common/scripts";
 import ContactForm from "@/components/common/contact-form";
+import Footer from "@/components/common/footer";
 import EducateGallerySection from "@/components/home/educate-gallery";
 
 const DEBOUNCE_TIME = 100;
@@ -70,7 +70,7 @@ export default function EducateGallery() {
   }, [debouncedDimensionCalculator]);
 
   const renderBackdrop = (): React.ReactNode => (
-    <div className="fixed top-0 left-0 h-screen w-screen -z-1" style={{ backgroundColor: '#05347e' }}></div>
+    <div className="fixed top-0 left-0 h-screen w-screen -z-1 page-backdrop"></div>
   );
 
   return (

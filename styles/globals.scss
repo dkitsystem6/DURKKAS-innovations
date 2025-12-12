@@ -29,7 +29,7 @@
 }
 
 body {
-  background-color: #05347e;
+  background-color: #0d4a8f;
   @apply text-white overflow-x-hidden;
   cursor: none;
   padding-bottom: 0;
@@ -115,16 +115,20 @@ a {
 .outer-menu {
   &.menu-visible {
     .hamburger {
+      z-index: 100 !important;
       > div {
         transform: rotate(135deg);
+        background-color: white !important;
         &:before {
           top: 0;
           transform: rotate(90deg);
+          background-color: white !important;
         }
         &:after {
           top: 0;
           transform: rotate(90deg);
           opacity: 0;
+          background-color: white !important;
         }
       }
     }
@@ -260,20 +264,6 @@ a {
   padding-bottom: 1.25rem !important;
 }
 
-footer {
-  background: url("/footer-bg.svg"),
-    linear-gradient(
-      153.86deg,
-      #05347e 0%,
-      #05347e 15.69%,
-      #05347e 48.9%,
-      #05347e 95.52%
-    );
-  padding-bottom: 0 !important;
-  margin-bottom: 0 !important;
-  min-height: auto !important;
-}
-
 main {
   padding-bottom: 0 !important;
   margin-bottom: 0 !important;
@@ -285,6 +275,10 @@ main {
 
 .section-title-sm {
   @apply uppercase tracking-widest text-gray-200 text-sm;
+}
+
+.page-backdrop {
+  background-color: #0d4a8f;
 }
 
 /* Force center alignment for h2 in hero section on mobile */

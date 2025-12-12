@@ -1,9 +1,3 @@
-// Copyright Ayush Singh 2021,2022. All Rights Reserved.
-// Project: folio
-// Author contact: https://www.linkedin.com/in/alphaayush/
-// This file is licensed under the MIT License.
-// License text available at https://opensource.org/licenses/MIT
-
 import { gsap, Linear } from "gsap";
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
@@ -69,16 +63,16 @@ const ElevateAboutSection = () => {
   }, [quoteRef, targetSection]);
 
   const renderQuotes = (): React.ReactNode => (
-    <h1 ref={quoteRef} className="font-medium text-xl sm:text-2xl md:text-4xl lg:text-6xl px-2 md:px-0 text-left">
+    <h1 ref={quoteRef} className="font-medium text-lg sm:text-xl md:text-3xl lg:text-5xl px-2 md:px-0">
       <span
-        className={`about-1 leading-tight block mb-4 ${
+        className={`about-1 leading-tight block mb-4 text-justify ${
           willChange ? "will-change-opacity" : ""
         }`}
       >
         Durkkas ELEVATE is the operational backbone of DIPL, delivering reliable backoffice support, compliance services and process-driven business solutions across all divisions.{" "}
       </span>
       <span
-        className={`about-2 leading-tight block ${
+        className={`about-2 leading-tight block text-justify ${
           willChange ? "will-change-opacity" : ""
         }`}
       >

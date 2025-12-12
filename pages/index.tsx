@@ -17,17 +17,18 @@ import Header from "@/components/common/header";
 import ProgressIndicator from "@/components/common/progress-indicator";
 import Cursor from "@/components/common/cursor";
 import HeroSection from "@/components/home/hero";
-import Footer from "@/components/common/footer";
 import Scripts from "@/components/common/scripts";
 import ContactForm from "@/components/common/contact-form";
+import Footer from "@/components/common/footer";
 
 // Lazy load heavy components below the fold
 const AboutSection = dynamic(() => import("@/components/home/about"), {
   loading: () => null,
 });
 
-const ProjectsSection = dynamic(() => import("@/components/home/projects"), {
+const DivisionSection = dynamic(() => import("@/components/home/our-division/division"), {
   loading: () => null,
+  ssr: false, // Division has GSAP animations
 });
 
 const QuoteSection = dynamic(() => import("@/components/home/quote"), {
@@ -95,7 +96,7 @@ export default function Home() {
   }, [debouncedDimensionCalculator]);
 
   const renderBackdrop = (): React.ReactNode => (
-    <div className="fixed top-0 left-0 h-screen w-screen -z-1" style={{ backgroundColor: '#05347e' }}></div>
+    <div className="fixed top-0 left-0 h-screen w-screen -z-1 page-backdrop"></div>
   );
 
   return (
@@ -111,7 +112,7 @@ export default function Home() {
           {renderBackdrop()}
           <HeroSection />
           <AboutSection />
-          <ProjectsSection isDesktop={isDesktop} />
+          <DivisionSection isDesktop={isDesktop} />
           <QuoteSection />
           <SkillsSection />
           <TimelineSection isDesktop={isDesktop} />

@@ -1,9 +1,3 @@
-// Copyright Ayush Singh 2021,2022. All Rights Reserved.
-// Project: folio
-// Author contact: https://www.linkedin.com/in/alphaayush/
-// This file is licensed under the MIT License.
-// License text available at https://opensource.org/licenses/MIT
-
 "use client";
 
 import { gsap, Linear } from "gsap";
@@ -28,11 +22,9 @@ import {
   SiTailwindcss,
   SiGit,
   SiGithub,
-  // Web Technologies
   SiHtml5,
   SiCss3,
   SiMysql,
-  // Digital Marketing Icons
   SiGoogleanalytics,
   SiGoogleads,
   SiHubspot,
@@ -43,6 +35,8 @@ import {
   SiGoogletagmanager,
   SiGooglesearchconsole,
 } from "react-icons/si";
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Tech stack configuration
 interface TechItem {
@@ -59,7 +53,6 @@ const JavaIcon = ({ size, color }: { size: number; color: string }) => (
 );
 
 const TECH_STACK: TechItem[] = [
-  // Development Technologies
   { name: "React", icon: SiReact as React.ComponentType<any>, color: "#61DAFB" },
   { name: "Next.js", icon: SiNextdotjs as React.ComponentType<any>, color: "#000000" },
   { name: "Node.js", icon: SiNodedotjs as React.ComponentType<any>, color: "#339933" },
@@ -67,24 +60,19 @@ const TECH_STACK: TechItem[] = [
   { name: "JavaScript", icon: SiJavascript as React.ComponentType<any>, color: "#F7DF1E" },
   { name: "Python", icon: SiPython as React.ComponentType<any>, color: "#3776AB" },
   { name: "Java", icon: JavaIcon, color: "#ED8B00" },
-  // Web Technologies
   { name: "HTML5", icon: SiHtml5 as React.ComponentType<any>, color: "#E34F26" },
   { name: "CSS3", icon: SiCss3 as React.ComponentType<any>, color: "#1572B6" },
   { name: "Tailwind", icon: SiTailwindcss as React.ComponentType<any>, color: "#06B6D4" },
-  // DevOps & Cloud
   { name: "Docker", icon: SiDocker as React.ComponentType<any>, color: "#2496ED" },
   { name: "Kubernetes", icon: SiKubernetes as React.ComponentType<any>, color: "#326CE5" },
   { name: "AWS", icon: SiAmazonwebservices as React.ComponentType<any>, color: "#FF9900" },
-  // Databases
   { name: "MongoDB", icon: SiMongodb as React.ComponentType<any>, color: "#47A248" },
   { name: "PostgreSQL", icon: SiPostgresql as React.ComponentType<any>, color: "#4169E1" },
   { name: "MySQL", icon: SiMysql as React.ComponentType<any>, color: "#4479A1" },
   { name: "Redis", icon: SiRedis as React.ComponentType<any>, color: "#DC382D" },
   { name: "GraphQL", icon: SiGraphql as React.ComponentType<any>, color: "#E10098" },
-  // Version Control
   { name: "Git", icon: SiGit as React.ComponentType<any>, color: "#F05032" },
   { name: "GitHub", icon: SiGithub as React.ComponentType<any>, color: "#181717" },
-  // Digital Marketing & Analytics
   { name: "Google Analytics", icon: SiGoogleanalytics as React.ComponentType<any>, color: "#FFC107" },
   { name: "Google Ads", icon: SiGoogleads as React.ComponentType<any>, color: "#4285F4" },
   { name: "Google Tag Manager", icon: SiGoogletagmanager as React.ComponentType<any>, color: "#34A853" },
@@ -114,6 +102,10 @@ const InnovateTechPlaceholder = React.memo(() => {
   const [hasAnimated, setHasAnimated] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [boxPositions, setBoxPositions] = useState<Map<string, TechBoxPosition>>(new Map());
+  const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
+
+  // NEW: track whether pointer is inside the container
+  const [isPointerInside, setIsPointerInside] = useState(false);
 
   const initTechAnimation = (
     targetSection: MutableRefObject<HTMLDivElement>
@@ -151,6 +143,8 @@ const InnovateTechPlaceholder = React.memo(() => {
     };
   }, [targetSection]);
 
+  // Allow page scrolling - no scroll prevention
+
   useEffect(() => {
     if (!isVisible || !containerRef.current || isInitialized) return;
 
@@ -167,26 +161,37 @@ const InnovateTechPlaceholder = React.memo(() => {
         return;
       }
       
+      // Store container dimensions for use in render
+      setContainerDimensions({ width, height });
+      
+      // Create Matter.js engine with optimized settings
+      const engine = Matter.Engine.create();
+      engine.world.gravity.y = 1; // Stronger gravity
+      engine.world.gravity.scale = 0.001;
+      engine.positionIterations = 6; // Reduce iterations for performance
+      engine.velocityIterations = 4; // Reduce iterations for performance
+
+      // Create tech icon boxes with physics - smaller on mobile
+      const mobileCheck = width < 768;
+      setIsMobile(mobileCheck);
+      const boxSize = mobileCheck ? Math.min(width / 6, 55) : Math.min(width / 8, 70);
+      
       // First time: Start icons above container (rain effect)
       // After first time: Start icons inside container
       const initialPositions = new Map<string, TechBoxPosition>();
       
       if (!hasAnimated) {
-        // First time - rain effect from top of container (scattered like dust particles)
         TECH_STACK.forEach((tech, index) => {
-          // Random scattered positions across the width, start at top of container
           const x = Math.random() * width;
-          const y = 20 + Math.random() * 30; // Start at top of container (visible)
-          
+          const y = 20 + Math.random() * 30;
           initialPositions.set(tech.name, {
             x,
             y,
-            angle: (Math.random() - 0.5) * 0.5, // Random slight rotation
+            angle: (Math.random() - 0.5) * 0.5,
           });
         });
         setHasAnimated(true);
       } else {
-        // After first time - start inside container
         const cols = Math.ceil(Math.sqrt(TECH_STACK.length));
         const initialBoxSize = Math.min(width / 8, 70);
         TECH_STACK.forEach((tech, index) => {
@@ -205,53 +210,46 @@ const InnovateTechPlaceholder = React.memo(() => {
       }
       setBoxPositions(initialPositions);
 
-      // Create Matter.js engine with optimized settings
-      const engine = Matter.Engine.create();
-      engine.world.gravity.y = 1; // Stronger gravity
-      engine.world.gravity.scale = 0.001;
-      engine.positionIterations = 6; // Reduce iterations for performance
-      engine.velocityIterations = 4; // Reduce iterations for performance
+      // Create boundaries (invisible walls) - positioned exactly at container edges
+      const boundaryThickness = 100; // Thicker boundaries to prevent overflow
+      const halfBoxSize = boxSize / 2;
+      
+      // Top boundary - slightly above container
+      const topBoundary = Matter.Bodies.rectangle(width / 2, -boundaryThickness / 2, width * 2, boundaryThickness, {
+        isStatic: true,
+        render: { visible: false },
+      });
+      
+      // Bottom boundary - slightly below container
+      const bottomBoundary = Matter.Bodies.rectangle(width / 2, height + boundaryThickness / 2, width * 2, boundaryThickness, {
+        isStatic: true,
+        render: { visible: false },
+      });
+      
+      // Left boundary - slightly left of container
+      const leftBoundary = Matter.Bodies.rectangle(-boundaryThickness / 2, height / 2, boundaryThickness, height * 2, {
+        isStatic: true,
+        render: { visible: false },
+      });
+      
+      // Right boundary - slightly right of container
+      const rightBoundary = Matter.Bodies.rectangle(width + boundaryThickness / 2, height / 2, boundaryThickness, height * 2, {
+        isStatic: true,
+        render: { visible: false },
+      });
+      
+      const boundaries = [topBoundary, bottomBoundary, leftBoundary, rightBoundary];
 
-      // Create boundaries (invisible walls)
-      const boundaryThickness = 50;
-      const boundaries = [
-        // Top
-        Matter.Bodies.rectangle(width / 2, -boundaryThickness / 2, width, boundaryThickness, {
-          isStatic: true,
-          render: { visible: false },
-        }),
-        // Bottom
-        Matter.Bodies.rectangle(width / 2, height + boundaryThickness / 2, width, boundaryThickness, {
-          isStatic: true,
-          render: { visible: false },
-        }),
-        // Left
-        Matter.Bodies.rectangle(-boundaryThickness / 2, height / 2, boundaryThickness, height, {
-          isStatic: true,
-          render: { visible: false },
-        }),
-        // Right
-        Matter.Bodies.rectangle(width + boundaryThickness / 2, height / 2, boundaryThickness, height, {
-          isStatic: true,
-          render: { visible: false },
-        }),
-      ];
-
-      // Create tech icon boxes with physics - smaller on mobile
-      const mobileCheck = width < 768;
-      setIsMobile(mobileCheck);
-      const boxSize = mobileCheck ? Math.min(width / 6, 55) : Math.min(width / 8, 70);
+      // Create tech icon boxes with physics
       const boxes: Matter.Body[] = [];
 
       TECH_STACK.forEach((tech, index) => {
         let x: number, y: number;
         
         if (!hasAnimated) {
-          // First time - start at top of container (scattered like dust particles)
           x = Math.random() * width;
-          y = 20 + Math.random() * 30; // Start at top of container (visible)
+          y = 20 + Math.random() * 30;
         } else {
-          // After first time - start inside container
           const cols = Math.ceil(Math.sqrt(TECH_STACK.length));
           const row = Math.floor(index / cols);
           const col = index % cols;
@@ -261,29 +259,26 @@ const InnovateTechPlaceholder = React.memo(() => {
         }
 
         const box = Matter.Bodies.rectangle(x, y, boxSize, boxSize, {
-          restitution: 0.6, // Bounce
+          restitution: 0.6,
           friction: 0.1,
-          frictionAir: 0.02, // Slightly more air resistance for floating effect
+          frictionAir: 0.02,
           density: 0.001,
           render: { visible: false },
           label: tech.name,
         });
 
-        // Add random initial velocity for scattered dust particle effect
         if (!hasAnimated) {
-          // Set velocity immediately
           Matter.Body.setVelocity(box, {
-            x: (Math.random() - 0.5) * 2, // Random horizontal velocity
-            y: Math.random() * 1.5 + 0.5, // Random downward velocity
+            x: (Math.random() - 0.5) * 2,
+            y: Math.random() * 1.5 + 0.5,
           });
-          Matter.Body.setAngularVelocity(box, (Math.random() - 0.5) * 0.1); // Random rotation
+          Matter.Body.setAngularVelocity(box, (Math.random() - 0.5) * 0.1);
         }
 
         (box as any).techInfo = tech;
         boxes.push(box);
       });
 
-      // Add all bodies to world
       Matter.World.add(engine.world, [...boundaries, ...boxes]);
 
       // Create mouse constraint for dragging
@@ -308,12 +303,28 @@ const InnovateTechPlaceholder = React.memo(() => {
         lastUpdateTime = now;
 
         const positions = new Map<string, TechBoxPosition>();
+        const halfBoxSize = boxSize / 2;
+        
         boxes.forEach((box) => {
           const techInfo = (box as any).techInfo;
           if (techInfo) {
+            // Clamp positions to keep icons inside container bounds
+            let clampedX = Math.max(halfBoxSize, Math.min(width - halfBoxSize, box.position.x));
+            let clampedY = Math.max(halfBoxSize, Math.min(height - halfBoxSize, box.position.y));
+            
+            // If position was clamped, update the physics body position
+            if (clampedX !== box.position.x || clampedY !== box.position.y) {
+              Matter.Body.setPosition(box, { x: clampedX, y: clampedY });
+              // Reduce velocity when hitting boundaries
+              Matter.Body.setVelocity(box, {
+                x: box.velocity.x * 0.5,
+                y: box.velocity.y * 0.5,
+              });
+            }
+            
             positions.set(techInfo.name, {
-              x: box.position.x,
-              y: box.position.y,
+              x: clampedX,
+              y: clampedY,
               angle: box.angle,
             });
           }
@@ -323,7 +334,7 @@ const InnovateTechPlaceholder = React.memo(() => {
 
       // Run engine with optimized settings
       const runner = Matter.Runner.create({
-        delta: 1000 / 60, // 60fps
+        delta: 1000 / 60,
         isFixed: true,
       });
       Matter.Runner.run(runner, engine);
@@ -332,7 +343,7 @@ const InnovateTechPlaceholder = React.memo(() => {
       let isPaused = false;
       const animate = () => {
         if (!isPaused) {
-          Matter.Engine.update(engine, 1000 / 60); // Fixed timestep
+          Matter.Engine.update(engine, 1000 / 60);
           updatePositions();
         }
         renderRef.current = requestAnimationFrame(animate);
@@ -359,11 +370,10 @@ const InnovateTechPlaceholder = React.memo(() => {
       mouseConstraintRef.current = mouseConstraint;
       setIsInitialized(true);
 
-      // Handle resize
+      // Handle resize (reinit)
       const handleResize = () => {
         const newRect = container.getBoundingClientRect();
         if (newRect.width !== width || newRect.height !== height) {
-          // Cleanup and reinitialize
           if (renderRef.current) {
             cancelAnimationFrame(renderRef.current);
           }
@@ -378,12 +388,8 @@ const InnovateTechPlaceholder = React.memo(() => {
       // Cleanup
       return () => {
         window.removeEventListener("resize", handleResize);
-        if (observer) {
-          observer.disconnect();
-        }
-        if (renderRef.current) {
-          cancelAnimationFrame(renderRef.current);
-        }
+        if (observer) observer.disconnect();
+        if (renderRef.current) cancelAnimationFrame(renderRef.current);
         if (runner) Matter.Runner.stop(runner);
         if (engine) Matter.Engine.clear(engine);
         if (mouseConstraint) Matter.World.remove(engine.world, mouseConstraint);
@@ -404,38 +410,68 @@ const InnovateTechPlaceholder = React.memo(() => {
         </h2>
 
         {/* Physics Container */}
+        {/* ——— UPDATED PHYSICS CONTAINER BG COLOR HERE ——— */}
         <div
           ref={containerRef}
-          className="mt-8 md:mt-16 seq relative w-full h-[300px] sm:h-[350px] md:h-[500px] rounded-xl md:rounded-2xl overflow-visible bg-white/5 backdrop-blur-sm border border-white/10"
-          style={{ touchAction: "none" }}
+          onMouseEnter={() => setIsPointerInside(true)}
+          onMouseLeave={() => setIsPointerInside(false)}
+          onTouchStart={() => setIsPointerInside(true)}
+          onTouchEnd={() => setIsPointerInside(false)}
+          className="mt-8 md:mt-16 seq relative w-full h-[300px] sm:h-[350px] md:h-[500px] rounded-xl md:rounded-2xl overflow-hidden z-0"
+            style={{
+            touchAction: "pan-y pinch-zoom", // Allow vertical scrolling and pinch zoom
+
+            // Background color matching page (#0d4a8f)
+            backgroundColor: isPointerInside
+              ? "rgba(13, 74, 143, 0.95)"
+              : "rgba(13, 74, 143, 0.9)",
+
+            backdropFilter: "blur(12px)",
+
+            border: "1px solid rgba(255, 255, 255, 0.1)",
+            // Inner light shadow/focus light effect
+            boxShadow: "inset 0 0 60px rgba(255, 255, 255, 0.1), inset 0 0 30px rgba(255, 255, 255, 0.05)",
+            // Ensure container clips content properly
+            position: "relative",
+            isolation: "isolate", // Create new stacking context
+          }}
         >
           {TECH_STACK.map((tech) => {
             const position = boxPositions.get(tech.name);
             const IconComponent = tech.icon as React.ComponentType<any>;
-            
+
             if (!position) return null;
 
-            // Smaller boxes on mobile, normal on desktop
             const displayBoxSize = isMobile ? 55 : 70;
             const halfSize = displayBoxSize / 2;
             const iconSize = isMobile ? 24 : 32;
 
+            // Ensure icon stays within container bounds
+            const containerWidth = containerDimensions.width || 800;
+            const containerHeight = containerDimensions.height || 500;
+            const clampedLeft = Math.max(0, Math.min(position.x - halfSize, containerWidth - displayBoxSize));
+            const clampedTop = Math.max(0, Math.min(position.y - halfSize, containerHeight - displayBoxSize));
+            
             return (
               <div
                 key={tech.name}
                 className="absolute flex flex-col items-center justify-center cursor-grab active:cursor-grabbing z-10"
                 style={{
-                  left: `${position.x - halfSize}px`,
-                  top: `${position.y - halfSize}px`,
+                  left: `${clampedLeft}px`,
+                  top: `${clampedTop}px`,
                   transform: `rotate(${position.angle}rad)`,
                   width: `${displayBoxSize}px`,
                   height: `${displayBoxSize}px`,
                   backgroundColor: `${tech.color}20`,
                   border: `2px solid ${tech.color}`,
                   borderRadius: isMobile ? "8px" : "12px",
+                  // IMPORTANT: pointerEvents none so DOM events pass to Matter mouse bound to container
                   pointerEvents: "none",
                   transition: "none",
                   boxShadow: `0 4px 12px ${tech.color}40`,
+                  // Ensure icon doesn't overflow container
+                  maxWidth: `${displayBoxSize}px`,
+                  maxHeight: `${displayBoxSize}px`,
                 }}
               >
                 <IconComponent
@@ -452,7 +488,7 @@ const InnovateTechPlaceholder = React.memo(() => {
               </div>
             );
           })}
-          <div className="absolute bottom-4 left-4 text-white/60 text-xs md:text-sm z-20">
+          <div className="absolute top-4 left-4 text-white/60 text-xs md:text-sm z-20">
             Drag the tech icons to interact
           </div>
         </div>

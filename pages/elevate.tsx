@@ -17,9 +17,9 @@ import Layout from "@/components/common/layout";
 import Header from "@/components/common/header";
 import ProgressIndicator from "@/components/common/progress-indicator";
 import Cursor from "@/components/common/cursor";
-import Footer from "@/components/common/footer";
 import Scripts from "@/components/common/scripts";
 import ContactForm from "@/components/common/contact-form";
+import Footer from "@/components/common/footer";
 
 // Lazy load heavy components
 const ElevateAboutSection = dynamic(() => import("@/components/home/elevate-about"), {
@@ -84,7 +84,7 @@ export default function Elevate() {
   }, [debouncedDimensionCalculator]);
 
   const renderBackdrop = (): React.ReactNode => (
-    <div className="fixed top-0 left-0 h-screen w-screen -z-1" style={{ backgroundColor: '#05347e' }}></div>
+    <div className="fixed top-0 left-0 h-screen w-screen -z-1 page-backdrop"></div>
   );
 
   return (
@@ -130,7 +130,7 @@ export default function Elevate() {
             <div 
               className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none"
               style={{
-                background: 'linear-gradient(to bottom, rgba(5, 52, 126, 1) 0%, rgba(5, 52, 126, 0.8) 30%, rgba(5, 52, 126, 0.6) 60%, rgba(5, 52, 126, 0.4) 100%)',
+                background: 'linear-gradient(to bottom, rgba(13, 74, 143, 1) 0%, rgba(13, 74, 143, 0.8) 30%, rgba(13, 74, 143, 0.6) 60%, rgba(13, 74, 143, 0.4) 100%)',
               }}
             />
             

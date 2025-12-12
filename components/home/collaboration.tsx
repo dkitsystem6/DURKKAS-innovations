@@ -135,7 +135,7 @@ const CollaborationSection = () => {
         gsap.set(element, { xPercent: -25 });
         return gsap.to(element, {
           xPercent: 0,
-          duration: 10, // Adjust speed
+          duration: 40,
           ease: 'none',
           repeat: -1
         });
@@ -143,7 +143,7 @@ const CollaborationSection = () => {
         gsap.set(element, { xPercent: 0 });
         return gsap.to(element, {
           xPercent: -25,
-          duration: 10, // Adjust speed
+          duration: 40,
           ease: 'none',
           repeat: -1
         });

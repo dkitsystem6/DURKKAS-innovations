@@ -10,15 +10,15 @@ import React, { MutableRefObject, useEffect, useRef } from "react";
 const SERVICES = [
   {
     title: "Remote Business Associate",
-    description: "Comprehensive remote business support covering Finance, Admin, Sales & Marketing, and HR Operations. Get dedicated professionals to handle your business functions remotely with efficiency and expertise.",
+    description: "Comprehensive remote business support covering Finance, Admin, Sales & Marketing and HR Operations. Get dedicated professionals to handle your business functions remotely with efficiency and expertise.",
   },
   {
     title: "Accounting & Auditing",
-    description: "Professional accounting and auditing services to maintain accurate financial records, ensure compliance, and provide insights for informed business decisions.",
+    description: "Professional accounting and auditing services to ensure timely submissions, maintain accurate and secure financial records, uphold full compliance without missing deadlines and deliver clear financial insights for confident business decision-making.",
   },
   {
     title: "Company Formation & Compliance",
-    description: "Complete support for company formation, registration, and ongoing compliance management. Navigate legal requirements seamlessly with expert guidance.",
+    description: "Complete support for company formation, registration and ongoing compliance management. Navigate legal requirements seamlessly with expert guidance.",
   },
   {
     title: "GST/ITR/TDS Compliance Filing Returns",
@@ -26,7 +26,7 @@ const SERVICES = [
   },
   {
     title: "Payroll Service",
-    description: "Comprehensive payroll management services including salary processing, statutory compliance, tax deductions, and employee record management for seamless HR operations.",
+    description: "Comprehensive payroll management services including salary processing, statutory compliance, tax deductions and employee record management for seamless HR operations.",
   },
 ];
 
@@ -116,7 +116,7 @@ const ElevateServicesSection = () => {
                     {service.title}
                   </h3>
                   
-                  <p className="text-sm md:text-base text-white/70 leading-relaxed flex-1 mb-4">
+                  <p className="text-sm md:text-base text-white/70 leading-relaxed flex-1 mb-4 text-justify">
                     {service.description}
                   </p>
                   

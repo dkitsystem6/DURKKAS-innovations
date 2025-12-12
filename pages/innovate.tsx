@@ -18,24 +18,24 @@ import Layout from "@/components/common/layout";
 import Header from "@/components/common/header";
 import ProgressIndicator from "@/components/common/progress-indicator";
 import Cursor from "@/components/common/cursor";
-import Footer from "@/components/common/footer";
 import Scripts from "@/components/common/scripts";
 import ContactForm from "@/components/common/contact-form";
+import Footer from "@/components/common/footer";
 
 // Lazy load heavy components with loading states
 const InnovateHeroSection = dynamic(
   () => import("@/components/home/innovate-hero").then(mod => mod.default),
-  { loading: () => <div className="min-h-screen bg-[#05347e]" /> }
+  { loading: () => <div className="min-h-screen bg-[#0d4a8f]" /> }
 );
 
 const InnovateAboutSection = dynamic(
   () => import("@/components/home/innovate-about").then(mod => mod.default),
-  { loading: () => <div className="h-[50vh] bg-[#05347e]" /> }
+  { loading: () => <div className="h-[50vh] bg-[#0d4a8f]" /> }
 );
 
 const InnovateServicesSection = dynamic(
   () => import("@/components/home/innovate-services").then(mod => mod.default),
-  { loading: () => <div className="h-[80vh] bg-[#05347e]" /> }
+  { loading: () => <div className="h-[80vh] bg-[#0d4a8f]" /> }
 );
 
 // Matter.js requires client-side only
@@ -49,7 +49,7 @@ const InnovateTechPlaceholder = dynamic(
 
 const InnovateCollaborationSection = dynamic(
   () => import("@/components/home/innovate-collaboration").then(mod => mod.default),
-  { loading: () => <div className="h-[80vh] bg-[#05347e]" /> }
+  { loading: () => <div className="h-[80vh] bg-[#0d4a8f]" /> }
 );
 
 const DEBOUNCE_TIME = 100;
@@ -153,9 +153,8 @@ export default function Innovate() {
 
   const renderBackdrop = (): React.ReactNode => (
     <div 
-      className="fixed top-0 left-0 h-screen w-screen -z-1" 
+      className="fixed top-0 left-0 h-screen w-screen -z-1 page-backdrop" 
       style={{ 
-        backgroundColor: '#05347e',
         willChange: 'transform' // Optimize for performance
       }}
     />

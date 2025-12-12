@@ -69,16 +69,16 @@ const EducateAboutSection = () => {
   }, [quoteRef, targetSection]);
 
   const renderQuotes = (): React.ReactNode => (
-    <h1 ref={quoteRef} className="font-medium text-xl sm:text-2xl md:text-4xl lg:text-6xl px-2 md:px-0 text-left">
+    <h1 ref={quoteRef} className="font-medium text-lg sm:text-xl md:text-3xl lg:text-5xl px-2 md:px-0">
       <span
-        className={`about-1 leading-tight block mb-4 ${
+        className={`about-1 leading-tight block mb-4 text-justify ${
           willChange ? "will-change-opacity" : ""
         }`}
       >
         Durkkas EDUCATE is the learning and career development engine of DIPL, shaping future-ready individuals through tech-integrated education, guided mentorship and continuous skill development.{" "}
       </span>
       <span
-        className={`about-2 leading-tight block ${
+        className={`about-2 leading-tight block text-justify ${
           willChange ? "will-change-opacity" : ""
         }`}
       >

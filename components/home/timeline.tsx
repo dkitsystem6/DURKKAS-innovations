@@ -512,27 +512,11 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
     const shouldShowSlides = isDesktop && !isSmall;
 
     // Slide as a trigger for Desktop
+    // Note: Slides are rendered via React components in renderSlides() function
+    // No need to use innerHTML with img tags - React Image components are used instead
     if (shouldShowSlides && screenContainer.current) {
-      // Re-render slides for desktop/tablet
-      if (screenContainer.current.innerHTML === "") {
-        // Re-render slides if they were cleared
-        // eslint-disable-next-line @next/next/no-img-element
-        const slidesHTML = `
-          <img class="w-full h-8" src="/timeline/title bar.png" alt="Title bar" width="644" height="34" />
-          <div class="relative h-full w-full -mt-2">
-            <div class="absolute top-0 left-0 h-full w-full">
-              ${svgCheckpointItems.map((item, index) => {
-                const checkpointItem = item as CheckpointNode;
-                // eslint-disable-next-line @next/next/no-img-element
-                return checkpointItem.slideImage 
-                  ? `<img class="w-full absolute top-0 object-cover slide-${index + 1}" src="${checkpointItem.slideImage}" alt="Timeline" style="position: absolute; width: 100%; height: 100%; object-fit: cover;" />`
-                  : '';
-              }).join('')}
-            </div>
-          </div>
-        `;
-        screenContainer.current.innerHTML = slidesHTML;
-      }
+      // Slides are already rendered via React in renderSlides()
+      // GSAP animations will work with the React-rendered Image components
 
       // Animation for right side slides
       setSlidesAnimation(timeline);

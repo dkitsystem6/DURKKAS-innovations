@@ -133,7 +133,7 @@ const EducateDivisionSection = () => {
     
     const interval = setInterval(() => {
       setActiveIndex(prev => (prev + 1) % DIVISIONS.length);
-    }, 10000);
+    }, 20000);
     
     return () => clearInterval(interval);
   }, [isMobile]);
@@ -169,7 +169,7 @@ const EducateDivisionSection = () => {
     <div className="flex flex-col inner-container">
       <p className="section-title-sm seq">Our Division</p>
       <h1 className="section-heading seq mt-2">Explore our divisions</h1>
-      <h2 className="text-lg sm:text-xl md:text-2xl md:max-w-3xl w-full seq max-w-sm mt-2 px-2 md:px-0">
+      <h2 className="text-lg sm:text-xl md:text-2xl md:max-w-3xl w-full seq max-w-sm mt-2 px-2 md:px-0 text-justify">
         specialized schools dedicated to excellence in education and career development.
       </h2>
 
@@ -244,6 +244,7 @@ const EducateDivisionSection = () => {
             line-height: 1.6;
             color: rgba(255, 255, 255, 0.9);
             margin-bottom: 1rem;
+            text-align: justify;
           }
 
           .card-features {
@@ -261,6 +262,7 @@ const EducateDivisionSection = () => {
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            text-align: justify;
           }
 
           /* Increase text sizes for tablet and desktop only */
@@ -272,10 +274,12 @@ const EducateDivisionSection = () => {
             .card-description {
               font-size: 1.15rem;
               line-height: 1.7;
+              text-align: justify;
             }
 
             .card-feature {
               font-size: 1rem;
+              text-align: justify;
             }
           }
 
@@ -287,10 +291,12 @@ const EducateDivisionSection = () => {
             .card-description {
               font-size: 1.25rem;
               line-height: 1.8;
+              text-align: justify;
             }
 
             .card-feature {
               font-size: 1.1rem;
+              text-align: justify;
             }
           }
 
@@ -364,6 +370,7 @@ const EducateDivisionSection = () => {
               font-size: 0.80rem;
               line-height: 1.4;
               margin-bottom: 0.75rem;
+              text-align: justify;
             }
 
             .card-features {
@@ -373,6 +380,7 @@ const EducateDivisionSection = () => {
 
             .card-feature {
               font-size: 0.7rem;
+              text-align: justify;
             }
 
             .learn-more-btn {

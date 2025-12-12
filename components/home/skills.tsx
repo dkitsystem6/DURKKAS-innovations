@@ -22,6 +22,8 @@ const SkillsSection = React.memo(() => {
   const [willChange, setwillChange] = useState(false);
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const visionH3Ref = useRef<HTMLHeadingElement>(null);
+  const missionH3Ref = useRef<HTMLHeadingElement>(null);
 
   const initRevealAnimation = useCallback((
     targetSection: MutableRefObject<HTMLDivElement>
@@ -145,6 +147,56 @@ const SkillsSection = React.memo(() => {
     };
   }, []);
 
+  // Infinite blur animation for Vision and Mission h3 text - hide to visible loop
+  useEffect(() => {
+    if (!visionH3Ref.current || !missionH3Ref.current) return;
+
+    const visionH3 = visionH3Ref.current;
+    const missionH3 = missionH3Ref.current;
+
+    // Create infinite animation timeline
+    const blurTimeline = gsap.timeline({ repeat: -1 });
+    
+    // Set initial state
+    gsap.set([visionH3, missionH3], { 
+      filter: 'blur(10px)',
+      opacity: 0
+    });
+
+    // Create infinite loop animation
+    blurTimeline
+      .to([visionH3, missionH3], {
+        filter: 'blur(0px)',
+        opacity: 1,
+        duration: 1.5,
+        ease: 'power2.out',
+        stagger: 0.3
+      })
+      .to([visionH3, missionH3], {
+        filter: 'blur(0px)',
+        opacity: 1,
+        duration: 2,
+        ease: 'none'
+      })
+      .to([visionH3, missionH3], {
+        filter: 'blur(10px)',
+        opacity: 0,
+        duration: 1.5,
+        ease: 'power2.in',
+        stagger: 0.3
+      })
+      .to([visionH3, missionH3], {
+        filter: 'blur(10px)',
+        opacity: 0,
+        duration: 1,
+        ease: 'none'
+      });
+
+    return () => {
+      blurTimeline.kill();
+    };
+  }, []);
+
   const renderSectionTitle = (): React.ReactNode => (
     <div className="flex flex-col">
       <p className="section-title-sm seq">Vision & Mission</p>
@@ -195,14 +247,17 @@ const SkillsSection = React.memo(() => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                 </svg>
               </div>
-              <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#0a5ba8] via-white to-[#0a5ba8] bg-clip-text text-transparent">
+              <h3 
+                ref={visionH3Ref}
+                className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#0a5ba8] via-white to-[#0a5ba8] bg-clip-text text-transparent"
+              >
                 Vision
               </h3>
             </div>
             
-            <p className="text-base md:text-lg text-gray-200 mb-5 leading-relaxed">
+            <p className="text-base md:text-lg text-gray-200 mb-5 leading-relaxed text-justify">
           To become a leading innovation-driven ecosystem that bridges technology, 
-          education and enterprise services — empowering society through digital transformation, 
+          education and enterprise services - empowering society through digital transformation, 
           continuous learning and sustainable growth.
         </p>
             
@@ -223,7 +278,7 @@ const SkillsSection = React.memo(() => {
                     <div className="flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-br from-[#0a5ba8] to-[#05347e] flex items-center justify-center mt-0.5 shadow-md">
                       <span className="text-white text-[10px] font-bold">{index + 1}</span>
                     </div>
-                    <span className="text-gray-200 text-sm md:text-base leading-relaxed flex-1">{item}</span>
+                    <span className="text-gray-200 text-sm md:text-base leading-relaxed flex-1 text-justify">{item}</span>
             </li>
                 ))}
           </ul>
@@ -246,14 +301,17 @@ const SkillsSection = React.memo(() => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#05347e] via-white to-[#0a5ba8] bg-clip-text text-transparent">
+              <h3 
+                ref={missionH3Ref}
+                className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#05347e] via-white to-[#0a5ba8] bg-clip-text text-transparent"
+              >
                 Mission
               </h3>
             </div>
             
-            <p className="text-base md:text-lg text-gray-200 mb-5 leading-relaxed">
+            <p className="text-base md:text-lg text-gray-200 mb-5 leading-relaxed text-justify">
           To empower individuals, institutions and enterprises through innovative 
-          technology, transformative education and sustainable business solutions — creating a 
+          technology, transformative education and sustainable business solutions - creating a 
           connected ecosystem that drives growth, knowledge and digital excellence.
         </p>
             
@@ -274,7 +332,7 @@ const SkillsSection = React.memo(() => {
                     <div className="flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-br from-[#05347e] to-[#0a5ba8] flex items-center justify-center mt-0.5 shadow-md">
                       <span className="text-white text-[10px] font-bold">{index + 1}</span>
                     </div>
-                    <span className="text-gray-200 text-sm md:text-base leading-relaxed flex-1">{item}</span>
+                    <span className="text-gray-200 text-sm md:text-base leading-relaxed flex-1 text-justify">{item}</span>
             </li>
                 ))}
           </ul>

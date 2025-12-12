@@ -57,22 +57,27 @@ const AboutSection = () => {
   }, [quoteRef, targetSection]);
 
   const renderQuotes = (): React.ReactNode => (
-    <h1 ref={quoteRef} className="font-medium text-xl sm:text-2xl md:text-4xl lg:text-6xl px-2 md:px-0">
+    <h1
+      ref={quoteRef}
+      className="font-medium text-lg sm:text-xl md:text-3xl lg:text-5xl px-2 md:px-0"
+    >
       <span
-        className={`about-1 leading-tight block mb-4 ${
+        className={`about-1 leading-tight block mb-4 text-justify ${
           willChange ? "will-change-opacity" : ""
         }`}
       >
-        Durkkas Innovations Pvt. Ltd. stands as a holistic innovation ecosystem,
-        bridging technology, learning, and enterprise growth.{" "}
+        Durkkas Innovations Pvt.Ltd. stands as a holistic innovation ecosystem,
+        bridging technology, learning and enterprise growth.
       </span>
+
       <span
-        className={`about-2 leading-tight block ${
+        className={`about-2 leading-tight block text-justify ${
           willChange ? "will-change-opacity" : ""
         }`}
       >
-        DIPL&apos;s mission and vision drive its commitment to transform industries,
-        empower communities, and create a future-ready digital society.
+        DIPL&apos;s mission and vision drive its commitment to transform
+        industries, empower communities and create a future-ready digital
+        society.
       </span>
     </h1>
   );
