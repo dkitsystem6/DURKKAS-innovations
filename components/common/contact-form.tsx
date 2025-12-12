@@ -228,7 +228,7 @@ const ContactForm = () => {
 
             {/* Form Header */}
             <h2 className="text-2xl font-bold text-white mb-6">
-              Let's Connect & Transform Your Business
+              Let&apos;s Connect & Transform Your Business
             </h2>
 
             {/* Loading Overlay */}

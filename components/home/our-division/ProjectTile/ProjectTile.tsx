@@ -61,9 +61,8 @@ const ProjectTile: React.FC<ProjectTileProps> = ({ project, classes = "" }) => {
   };
 
   return (
-    <Link href={project.url}>
-      <div
-        className={`${styles.ProjectTile} ${classes} cursor-pointer relative`}
+    <Link href={project.url} passHref>
+      <a className={`${styles.ProjectTile} ${classes} cursor-pointer relative block`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         style={{
@@ -159,7 +158,7 @@ const ProjectTile: React.FC<ProjectTileProps> = ({ project, classes = "" }) => {
             );
           })}
         </div>
-      </div>
+      </a>
     </Link>
   );
 };
