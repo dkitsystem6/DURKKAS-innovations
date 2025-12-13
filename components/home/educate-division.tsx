@@ -128,15 +128,15 @@ const EducateDivisionSection = () => {
   }, []);
 
   // Auto-scroll for mobile
-  useEffect(() => {
-    if (!isMobile) return;
+  // useEffect(() => {
+  //   if (!isMobile) return;
     
-    const interval = setInterval(() => {
-      setActiveIndex(prev => (prev + 1) % DIVISIONS.length);
-    }, 20000);
+  //   const interval = setInterval(() => {
+  //     setActiveIndex(prev => (prev + 1) % DIVISIONS.length);
+  //   }, 20000);
     
-    return () => clearInterval(interval);
-  }, [isMobile]);
+  //   return () => clearInterval(interval);
+  // }, [isMobile]);
 
   const handleCardClick = (index: number) => {
     if (isMobile) return; // Prevent manual navigation on mobile
@@ -474,19 +474,20 @@ const EducateDivisionSection = () => {
     >
       <div className="relative">
         {renderContent()}
-        
+
         {/* Desktop Navigation Buttons - Sides */}
         <div className="hidden md:flex absolute inset-y-0 left-0 right-0 items-center justify-between pointer-events-none px-4">
           {/* Previous Button - Left Side */}
           <button
             onClick={(e) => {
               e.stopPropagation();
-              const prevIndex = (activeIndex - 1 + DIVISIONS.length) % DIVISIONS.length;
+              const prevIndex =
+                (activeIndex - 1 + DIVISIONS.length) % DIVISIONS.length;
               handleCardClick(prevIndex);
             }}
             className="bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full p-4 text-white transition-all duration-300 transform hover:scale-110 -ml-8 pointer-events-auto"
             style={{
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)'
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
             }}
           >
             <svg
@@ -514,7 +515,7 @@ const EducateDivisionSection = () => {
             }}
             className="bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full p-4 text-white transition-all duration-300 transform hover:scale-110 -mr-8 pointer-events-auto"
             style={{
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)'
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
             }}
           >
             <svg
@@ -533,20 +534,45 @@ const EducateDivisionSection = () => {
             </svg>
           </button>
         </div>
-        
+
         {/* Mobile Navigation - Only show dots for mobile */}
-        <div className="md:hidden absolute bottom-0 left-0 right-0 flex justify-center gap-2 pb-4">
-          {DIVISIONS.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setActiveIndex(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                index === activeIndex ? 'bg-white w-6' : 'bg-white/40 w-2'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-          
+        {/* Mobile Navigation - Dots + Prev / Next */}
+        <div className="md:hidden absolute bottom-0 left-0 right-0 flex items-center justify-center gap-4 pb-4">
+          {/* Prev Button */}
+          <button
+            onClick={() =>
+              setActiveIndex(
+                (activeIndex - 1 + DIVISIONS.length) % DIVISIONS.length
+              )
+            }
+            className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white active:scale-95"
+            aria-label="Previous"
+          >
+            ‹
+          </button>
+
+          {/* Dots */}
+          <div className="flex gap-2">
+            {DIVISIONS.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveIndex(index)}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  index === activeIndex ? "bg-white w-6" : "bg-white/40 w-2"
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+
+          {/* Next Button */}
+          <button
+            onClick={() => setActiveIndex((activeIndex + 1) % DIVISIONS.length)}
+            className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white active:scale-95"
+            aria-label="Next"
+          >
+            ›
+          </button>
         </div>
       </div>
     </section>

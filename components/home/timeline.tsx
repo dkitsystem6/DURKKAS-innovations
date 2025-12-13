@@ -1,9 +1,3 @@
-// Copyright Ayush Singh 2021,2022. All Rights Reserved.
-// Project: folio
-// Author contact: https://www.linkedin.com/in/alphaayush/
-// This file is licensed under the MIT License.
-// License text available at https://opensource.org/licenses/MIT
-
 import { MutableRefObject, useEffect, useRef, useState, useCallback } from "react";
 import {
   Branch,
@@ -162,7 +156,8 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
   ) => {
     const { title, subtitle, size, image } = timelineNode;
 
-    const offset = isDiverged ? rightBranchX : 10;
+    const offset =
+      isDiverged && timelineNode.alignment === Branch.RIGHT ? rightBranchX : 10;
     const foreignObjectX = dotSize / 2 + 10 + offset;
     const foreignObjectY = y - dotSize / 2;
     const foreignObjectWidth = svgWidth - (dotSize / 2 + 10 + offset) - 16; // small right margin to avoid clipping

@@ -322,11 +322,11 @@ const SkillsSection = React.memo(() => {
               </h4>
               <ul className="space-y-2">
                 {[
-                  "Empower Individuals through education, skill development, and career guidance under DARE Centre and EDUKOOT",
-                  "Enable Institutions with scalable technology, automation, and learning management systems through Durkkas InfoTech",
-                  "Support Enterprises with compliance, staffing, and process efficiency through Durkkas Associates",
+                  "Empower Individuals through education, skill development and career guidance under DARE Centre and EDUKOOT",
+                  "Enable Institutions with scalable technology, automation and learning management systems through Durkkas InfoTech",
+                  "Support Enterprises with compliance, staffing and process efficiency through Durkkas Associates",
                   "Foster Innovation by developing proprietary frameworks like the Durkkas Business Framework (DBF) for research and consultancy",
-                  "Promote Collaboration by building a unified digital ecosystem that connects education, technology, and business operations seamlessly"
+                  "Promote Collaboration by building a unified digital ecosystem that connects education, technology and business operations seamlessly"
                 ].map((item, index) => (
                   <li key={index} className="flex items-start group/item gap-2 p-2 rounded-lg hover:bg-[#0a5ba8]/10 transition-all duration-200">
                     <div className="flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-br from-[#05347e] to-[#0a5ba8] flex items-center justify-center mt-0.5 shadow-md">

@@ -5,7 +5,7 @@
 // License text available at https://opensource.org/licenses/MIT
 
 export const METADATA = {
-  title: "DURKKAS Innovations Pvt.Ltd",
+  title: "DURKKAS",
   description:
     "Durkkas Innovations Pvt. Ltd. stands as a holistic innovation ecosystem, bridging technology, learning, and enterprise growth. DURKKAS’s mission and vision drive its commitment to transform industries, empower communities, and create a future-ready digital society. ",
   siteUrl: "https://durkkas.com/",
