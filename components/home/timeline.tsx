@@ -160,18 +160,20 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
       isDiverged && timelineNode.alignment === Branch.RIGHT ? rightBranchX : 10;
     const foreignObjectX = dotSize / 2 + 10 + offset;
     const foreignObjectY = y - dotSize / 2;
-    const foreignObjectWidth = svgWidth - (dotSize / 2 + 10 + offset) - 16; // small right margin to avoid clipping
+    const foreignObjectWidth = svgWidth - (dotSize / 2 + 10 + offset) - 16;
 
     const titleSizeClass = size === ItemSize.LARGE ? "text-6xl" : "text-2xl";
     const highlightedLetters = ["D", "U", "R", "K", "A", "S"];
-    const titleColorClass = highlightedLetters.includes(title) ? " text-yellow-400" : "";
-    // eslint-disable-next-line @next/next/no-img-element
+    const titleColorClass = highlightedLetters.includes(title)
+      ? " text-yellow-400"
+      : "";
+
     const logoString = image
       ? `<img src='${image}' class='h-8 mb-2' loading='lazy' width='100' height='32' alt='${image}' />`
       : "";
+
     let processedSubtitle = subtitle || "";
 
-    // For Data subtitle, insert a mobile-only line break after 'business,'
     if (title === "Data") {
       processedSubtitle = processedSubtitle.replace(
         "business,",
@@ -179,7 +181,6 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
       );
     }
 
-    // For Understand subtitle, insert a mobile-only line break after 'and'
     if (title === "Understand") {
       processedSubtitle = processedSubtitle.replace(
         "and ",
@@ -187,7 +188,6 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
       );
     }
 
-    // For Keep subtitle, insert a mobile-only line break after 'reduce'
     if (title === "Keep") {
       processedSubtitle = processedSubtitle.replace(
         "reduce ",
@@ -195,7 +195,6 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
       );
     }
 
-    // For KPI Tracking subtitle, insert a mobile-only line break after 'using'
     if (title === "KPI Tracking") {
       processedSubtitle = processedSubtitle.replace(
         "using ",
@@ -203,7 +202,6 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
       );
     }
 
-    // For Automate subtitle, insert a mobile-only line break after 'and'
     if (title === "Automate") {
       processedSubtitle = processedSubtitle.replace(
         "and ",
@@ -215,21 +213,20 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
       ? `<p class='text-sm md:text-xl mt-2 text-gray-200 font-medium tracking-wide'>${processedSubtitle}</p>`
       : "";
 
-    // Mobile-only images directly under each DURKAS letter and KPI Tracking
+    // Mobile-only image
     let mobileImageString = "";
     if (isSmallScreen()) {
       const slidesWithImages = svgCheckpointItems.filter(
         (item) => (item as CheckpointNode).slideImage
       ) as CheckpointNode[];
 
-      // Map letters to specific slide indexes in slidesWithImages
       const letterToIndex: Record<string, number> = {
-        D: 0, // Data
-        U: 1, // Understand
-        R: 2, // Recommend
-        K: 3, // Keep
-        A: 5, // Automate
-        S: 6, // Scale
+        D: 0,
+        U: 1,
+        R: 2,
+        K: 3,
+        A: 5,
+        S: 6,
       };
 
       let slideIndex: number | undefined;
@@ -237,26 +234,33 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
       if (highlightedLetters.includes(title)) {
         slideIndex = letterToIndex[title];
       } else if (title === "KPI Tracking") {
-        slideIndex = 4; // KPI Tracking image
+        slideIndex = 4;
       }
 
       if (slideIndex !== undefined) {
         const slideNode = slidesWithImages[slideIndex];
-        if (slideNode && slideNode.slideImage) {
-          mobileImageString = `<div class='mt-1 mx-2 rounded-xl overflow-hidden shadow-lg flex justify-center'><img src='${slideNode.slideImage}' alt='Timeline' class='w-11/12 h-36 object-cover md:hidden' loading='lazy' /></div>`;
+        if (slideNode?.slideImage) {
+          mobileImageString = `
+          <div class='mt-1 mx-2 rounded-xl overflow-hidden shadow-lg flex justify-center'>
+            <img src='${slideNode.slideImage}' 
+                 alt='Timeline' 
+                 class='w-11/12 h-36 object-cover md:hidden' 
+                 loading='lazy' />
+          </div>`;
         }
       }
     }
 
-    // For 'Keep', place image directly below title and above subtitle
-    const contentAfterTitle =
-      title === "Keep"
-        ? `${mobileImageString}${subtitleString}`
-        : `${subtitleString}${mobileImageString}`;
+    // ✅ FIX: Same order for ALL items (subtitle → image)
+    const contentAfterTitle = `${subtitleString}${mobileImageString}`;
 
-    return `<foreignObject x=${foreignObjectX} y=${foreignObjectY} width=${foreignObjectWidth} 
-        height=${separation}>${logoString}<p class='${titleSizeClass}${titleColorClass}'>${title}</p>${contentAfterTitle}</foreignObject>`;
+    return `<foreignObject x=${foreignObjectX} y=${foreignObjectY} width=${foreignObjectWidth} height=${separation}>
+    ${logoString}
+    <p class='${titleSizeClass}${titleColorClass}'>${title}</p>
+    ${contentAfterTitle}
+  </foreignObject>`;
   };
+
 
   const drawLine = (
     timelineNode: LinkedCheckpointNode,

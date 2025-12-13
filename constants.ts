@@ -123,14 +123,9 @@ export const TYPED_STRINGS = [
 export const EMAIL = "ayush.singh.xda@gmail.com";
 
 export const SOCIAL_LINKS = {
-  linkedin: "#",
-  github: "#",
-  
-  instagram: "#",
-  facebook: "#",
-  
-  twitter: "#",
-  
+  linkedin: "https://www.linkedin.com/company/durkkasinnovations",
+  instagram: "https://www.instagram.com/durkkasinnovations",
+  facebook: "https://www.facebook.com/durkkasinnovations",
 };
 
 
