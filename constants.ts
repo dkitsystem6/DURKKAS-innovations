@@ -249,7 +249,7 @@ export const TIMELINE: Array<TimelineNodeV2> = [
     // image: "/timeline/octanner.svg",
     slideImage: "/timeline/kpi.jpg",
     shouldDrawLine: true,
-    alignment: Branch.LEFT,
+    alignment: Branch.RIGHT,
   },
   {
     type: NodeTypes.CONVERGE,
