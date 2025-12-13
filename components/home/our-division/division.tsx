@@ -155,9 +155,23 @@ const Division = ({ isDesktop, clientHeight = 650 }: DivisionProps) => {
           <p className="section-title-sm seq">EMPOWERING THE FUTURE</p>
           <h1 className="section-heading seq mt-2">An Eco System to</h1>
           <h2 className="text-2xl md:max-w-2xl w-full seq mt-2 break-words">
-            From ideas to execution, we empower people with the tools,
-            knowledge, and support needed to rise, lead, and transform their
-            future.
+            {/* Desktop + Tablet */}
+            <span className="hidden md:block">
+              From ideas to execution, we empower people with the tools,
+              knowledge, and support needed to rise, lead, and transform their
+              future.
+            </span>
+
+            {/* Mobile only */}
+            <span className="block md:hidden">
+              From ideas to execution,we
+              <br />
+              empower people with, the tools,
+              <br />
+              knowledge and support needed to
+              <br />
+              rise, lead and transform their future.
+            </span>
           </h2>
         </div>
         <div
