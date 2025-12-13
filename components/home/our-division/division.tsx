@@ -143,31 +143,27 @@ const Division = ({ isDesktop, clientHeight = 650 }: DivisionProps) => {
     <section
       ref={sectionRef}
       id={MENULINKS[1].ref}
-      className={`${
-        isDesktop && "min-h-screen"
-      } w-full relative select-none section-container transform-gpu`}
+      className={`${isDesktop && "min-h-screen"} 
+  w-full relative select-none section-container transform-gpu`}
     >
-      <div className="flex flex-col py-4 md:py-6 justify-center h-full">
+      <div className="flex flex-col py-4 md:py-6 justify-center md:h-full">
         <div
           className="flex flex-col inner-container transform-gpu"
           ref={sectionTitleRef}
         >
-          <p className="section-title-sm seq">
-            EMPOWERING THE FUTURE
-          </p>
-          <h1 className="section-heading seq mt-2">
-            An Eco System to
-          </h1>
-          <h2 className="text-2xl md:max-w-2xl w-full seq mt-2">
+          <p className="section-title-sm seq">EMPOWERING THE FUTURE</p>
+          <h1 className="section-heading seq mt-2">An Eco System to</h1>
+          <h2 className="text-2xl md:max-w-2xl w-full seq mt-2 break-words">
             From ideas to execution, we empower people with the tools,
-            knowledge, and support needed to rise, lead, and
-            transform their future.{" "}
+            knowledge, and support needed to rise, lead, and transform their
+            future.
           </h2>
         </div>
+
         <div
           className={`${
             clientHeight > 650 ? "mt-8 sm:mt-12" : "mt-6 sm:mt-8"
-          } flex project-wrapper no-scrollbar w-fit staggered-reveal overflow-x-auto snap-x snap-mandatory scroll-pl-4 sm:scroll-pl-6`}
+          } flex project-wrapper no-scrollbar w-full staggered-reveal overflow-x-auto snap-x snap-mandatory scroll-pl-4 sm:scroll-pl-6`}
         >
           {DIVISIONS.map((division, index) => (
             <ProjectTile
