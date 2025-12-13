@@ -143,10 +143,11 @@ const Division = ({ isDesktop, clientHeight = 650 }: DivisionProps) => {
     <section
       ref={sectionRef}
       id={MENULINKS[1].ref}
-      className={`${isDesktop && "min-h-screen"} 
-  w-full relative select-none section-container transform-gpu`}
+      className={`${
+        isDesktop && "min-h-screen"
+      } w-full relative select-none section-container transform-gpu`}
     >
-      <div className="flex flex-col py-4 md:py-6 justify-center md:h-full">
+      <div className="flex flex-col py-4 md:py-6 justify-center h-full">
         <div
           className="flex flex-col inner-container transform-gpu"
           ref={sectionTitleRef}
@@ -159,11 +160,10 @@ const Division = ({ isDesktop, clientHeight = 650 }: DivisionProps) => {
             future.
           </h2>
         </div>
-
         <div
           className={`${
             clientHeight > 650 ? "mt-8 sm:mt-12" : "mt-6 sm:mt-8"
-          } flex project-wrapper no-scrollbar w-full staggered-reveal overflow-x-auto snap-x snap-mandatory scroll-pl-4 sm:scroll-pl-6`}
+          } flex project-wrapper no-scrollbar w-fit staggered-reveal overflow-x-auto snap-x snap-mandatory scroll-pl-4 sm:scroll-pl-6`}
         >
           {DIVISIONS.map((division, index) => (
             <ProjectTile
